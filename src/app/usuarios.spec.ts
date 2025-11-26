@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-// local dummy Usuarios provider for the spec
-class Usuarios {}
+import { Usuarios } from './usuarios';
 
 describe('Usuarios', () => {
   let service: Usuarios;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [Usuarios] });
+    TestBed.configureTestingModule({});
     service = TestBed.inject(Usuarios);
   });
 
@@ -15,4 +14,3 @@ describe('Usuarios', () => {
     expect(service).toBeTruthy();
   });
 });
-

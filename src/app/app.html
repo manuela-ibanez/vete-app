@@ -1,32 +1,38 @@
-<!-- Logo sacado de internet --> 
-<div class="capybaraloader">
-  <div class="capybara">
-    <div class="capyhead">
-      <div class="capyear">
-        <div class="capyear2"></div>
-      </div>
-      <div class="capyear"></div>
-      <div class="capymouth">
-        <div class="capylips"></div>
-        <div class="capylips"></div>
-      </div>
-      <div class="capyeye"></div>
-      <div class="capyeye"></div>
+<div class="container-fluid min-vh-100 d-flex flex-column">
+
+  <div class="row align-items-center d-flex">
+  <!-- LOGO -->
+  <div class="col-2 ps-0">
+    <app-logo></app-logo>
+  </div>
+
+  <!-- MENÚ -->
+  <div class="col-10 d-flex align-items-center p-0">
+    <div class="menu-full">
+      <app-menu></app-menu>
     </div>
-    <div class="capyleg"></div>
-    <div class="capyleg2"></div>
-    <div class="capyleg2"></div>
-    <div class="capy"></div>
-  </div>
-  <div class="loader">
-    <div class="loaderline"></div>
   </div>
 </div>
 
-<!-- Logo sacado de internet --> 
 
-<div>
-  <h1>Veterinaria</h1>
-  <p class="welcome">Bienvenido a la veterinaria</p>
+  <!-- Lista -->
+  <div class="row">
+    <div class="col-8 mx-auto">
+      <app-lista></app-lista>
+    </div>
+  </div>
+
+  <!-- Contenido dinámico -->
+  <div class="row flex-grow-1">
+    <div class="col-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="row">
+    <div class="col">
+      <app-footer></app-footer>
+    </div>
+  </div>
 </div>
-<router-outlet />
