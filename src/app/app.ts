@@ -1,17 +1,20 @@
-import { HttpClientModule } from '@angular/common/http';
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Footer } from "./footer/footer";
-import { Logo } from "./logo/logo";
-import { Lista } from "./lista/lista";
-import { Menu } from "./menu/menu";
+import { MenuComponent } from './menu/menu';
+import { LogoComponent } from './logo/logo';
+import { FooterComponent } from './footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Footer, Logo, Lista, Menu],
+  standalone: true,
+  imports: [
+    RouterOutlet,
+    MenuComponent,
+    LogoComponent,
+    FooterComponent
+    // Lista ← NO lo incluyas aquí, se carga por el router
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  protected readonly title = signal('vete-app');
-}
+export class App { }

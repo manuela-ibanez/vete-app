@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
+  standalone: true,  // ← AGREGAR ESTO
   imports: [],
   templateUrl: './footer.html',
   styleUrl: './footer.css',
 })
-export class Footer {
+export class FooterComponent {
   year = new Date().getFullYear();
 }
