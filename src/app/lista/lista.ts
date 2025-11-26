@@ -70,6 +70,7 @@ mascota: any;
         this.mascotas.push(addedMascota);
         this.mascotasFiltradas.push(addedMascota);
         console.log('Mascota añadida', addedMascota);
+        this.loadMascotas();
       },
       (error) => console.error('Error al agregar la mascota:', error)
     );
