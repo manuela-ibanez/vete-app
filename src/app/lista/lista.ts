@@ -89,6 +89,7 @@ mascota: any;
       }
       this.mascotasService.updateMascota(this.mascotaSeleccionada.id!, this.mascotaSeleccionada).subscribe(
         (updatedMascota) => {
+
           // Actualiza la lista local con los datos actualizados.
           const index = this.mascotas.findIndex(m => m.id === updatedMascota.id);
           if (index !== -1) {
@@ -97,6 +98,7 @@ mascota: any;
           }
           console.log('Mascota actualizada', updatedMascota);
           this.mascotaSeleccionada = null; // Cierra el formulario de edición.
+          this.loadMascotas(); 
         },
         (error) => console.error('Error al actualizar la mascota:', error)
       );
