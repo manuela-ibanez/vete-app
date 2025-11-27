@@ -14,9 +14,9 @@ import { Usuario } from "../usuario";
   styleUrls: ['./lista.css'],
 })
 export class Lista implements OnInit {
-  mascotas: Mascota[] = []; // Contiene todas las mascotas.
-  mascotasFiltradas: Mascota[] = []; // Contiene la lista de mascotas visibles.
-  mascotaSeleccionada: Mascota | null = null; // Mascota seleccionada para edición.
+  mascotas: Mascota[] = [];
+  mascotasFiltradas: Mascota[] = [];
+  mascotaSeleccionada: Mascota | null = null;
 
   nombre: string | undefined;
   clase: string | undefined;
@@ -24,18 +24,22 @@ export class Lista implements OnInit {
   edad: number | undefined;
   usuarios: any;
   usuariosId: number | undefined;
-mascota: any;
 
   constructor(
     private mascotasService: MascotasService,
     private usuariosService: UsuariosService
   ) {}
 
+  ngOnInit(): void {
+    this.loadMascotas();
+    this.loadUsuarios();
+  }
+
   private loadMascotas(): void {
     this.mascotasService.getMascotas().subscribe(
       (data) => {
         this.mascotas = data;
-        this.mascotasFiltradas = data; // inicia con la lista completa
+        this.mascotasFiltradas = data;
       },
       (error) => console.error('Error al cargar las mascotas:', error)
     );
@@ -50,83 +54,119 @@ mascota: any;
     );
   }
 
-  // Añadir mascota.
-  ngOnInit(): void {
-    this.loadMascotas();
-    this.loadUsuarios();
-  }
-
   onSubmit(form: any): void {
-  const newMascota: Mascota = {
-    nombre: this.nombre ?? '',
-    clase: this.clase ?? '',
-    peso: this.peso ?? 0,
-    edad: this.edad ?? 0,
-    usuarioId: this.usuariosId
-  };
+    // El formulario ya valida, pero agregamos validación extra
+    if (form.invalid) {
+      Object.keys(form.controls).forEach(key => {
+        form.controls[key].markAsTouched();
+      });
+      alert('Por favor, completa todos los campos correctamente');
+      return;
+    }
 
-  this.mascotasService.createMascota(newMascota).subscribe(
-    (addedMascota) => {
-      console.log('Mascota añadida', addedMascota);
-      
-      // NO agregues manualmente, solo recargá la lista
-      // this.mascotas.push(addedMascota);  ← BORRAR
-      // this.mascotasFiltradas.push(addedMascota);  ← BORRAR
-      
-      // Limpiar formulario
-      this.nombre = undefined;
-      this.clase = undefined;
-      this.peso = undefined;
-      this.edad = undefined;
-      this.usuariosId = undefined;
-      form.resetForm();
-      
-      // Recargar lista completa desde el backend
-      this.loadMascotas();  // ← Esto trae todo con las relaciones
-    },
-    (error) => console.error('Error al agregar la mascota:', error)
-  );
-}
+    // Validaciones adicionales personalizadas
+    if (!this.nombre || !this.clase || !this.peso || !this.edad || !this.usuariosId) {
+      alert('Todos los campos son obligatorios');
+      return;
+    }
 
-  // Seleccionar mascota para edición.
-  editarMascota(mascota: Mascota): void {
-    this.mascotaSeleccionada = { ...mascota }; // Clona la mascota seleccionada para evitar modificar el array original.
+    if (this.peso <= 0) {
+      alert('El peso debe ser mayor a 0');
+      return;
+    }
+
+    if (this.edad < 0) {
+      alert('La edad no puede ser negativa');
+      return;
+    }
+
+    const newMascota: Mascota = {
+      nombre: this.nombre.trim(),
+      clase: this.clase.trim(),
+      peso: this.peso,
+      edad: this.edad,
+      usuarioId: this.usuariosId
+    };
+
+    this.mascotasService.createMascota(newMascota).subscribe(
+      (addedMascota) => {
+        console.log('Mascota añadida', addedMascota);
+        alert('✅ Mascota creada exitosamente');
+        
+        // Limpiar formulario
+        this.nombre = undefined;
+        this.clase = undefined;
+        this.peso = undefined;
+        this.edad = undefined;
+        this.usuariosId = undefined;
+        form.resetForm();
+        
+        // Recargar lista completa desde el backend
+        this.loadMascotas();
+      },
+      (error) => {
+        console.error('Error al agregar la mascota:', error);
+        alert('❌ Error al crear la mascota. Por favor, intenta nuevamente.');
+      }
+    );
   }
 
-  // Actualizar mascota.
+  editarMascota(mascota: Mascota): void {
+    this.mascotaSeleccionada = { ...mascota };
+  }
+
   actualizarMascota(): void {
     if (this.mascotaSeleccionada) {
       if (this.mascotaSeleccionada.id === undefined) {
         console.error('Error: La mascota seleccionada no tiene un id definido.');
         return;
       }
+
+      // Validaciones adicionales
+      if (this.mascotaSeleccionada.peso && this.mascotaSeleccionada.peso <= 0) {
+        alert('El peso debe ser mayor a 0');
+        return;
+      }
+
+      if (this.mascotaSeleccionada.edad && this.mascotaSeleccionada.edad < 0) {
+        alert('La edad no puede ser negativa');
+        return;
+      }
+
       this.mascotasService.updateMascota(this.mascotaSeleccionada.id!, this.mascotaSeleccionada).subscribe(
         (updatedMascota) => {
-
-          // Actualiza la lista local con los datos actualizados.
           const index = this.mascotas.findIndex(m => m.id === updatedMascota.id);
           if (index !== -1) {
             this.mascotas[index] = updatedMascota;
             this.mascotasFiltradas[index] = updatedMascota;
           }
           console.log('Mascota actualizada', updatedMascota);
-          this.mascotaSeleccionada = null; // Cierra el formulario de edición.
+          alert('✅ Mascota actualizada exitosamente');
+          this.mascotaSeleccionada = null;
           this.loadMascotas(); 
         },
-        (error) => console.error('Error al actualizar la mascota:', error)
+        (error) => {
+          console.error('Error al actualizar la mascota:', error);
+          alert('❌ Error al actualizar la mascota');
+        }
       );
     }
   }
 
-  // Eliminar mascota.
   deleteMascota(id: number): void {
-    this.mascotasService.deleteMascota(id).subscribe(
-      () => {
-        this.mascotas = this.mascotas.filter(mascota => mascota.id !== id);
-        this.mascotasFiltradas = this.mascotasFiltradas.filter(mascota => mascota.id !== id);
-        console.log(`Mascota con ID ${id} eliminada`);
-      },
-      (error) => console.error('Error al eliminar la mascota:', error)
-    );
+    if (confirm('¿Estás seguro de eliminar esta mascota?')) {
+      this.mascotasService.deleteMascota(id).subscribe(
+        () => {
+          this.mascotas = this.mascotas.filter(mascota => mascota.id !== id);
+          this.mascotasFiltradas = this.mascotasFiltradas.filter(mascota => mascota.id !== id);
+          alert('✅ Mascota eliminada exitosamente');
+          console.log(`Mascota con ID ${id} eliminada`);
+        },
+        (error) => {
+          console.error('Error al eliminar la mascota:', error);
+          alert('❌ Error al eliminar la mascota');
+        }
+      );
+    }
   }
 }
