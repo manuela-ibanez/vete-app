@@ -1,10 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MascotasService } from '../mascotas';
-import { Mascota } from "../mascota";
-import { UsuariosService } from "../usuarios";
-import { Usuario } from "../usuario";
+import { MascotasService } from '../services/mascotas';
+import { Mascota } from "../interfaces/mascota";
+import { UsuariosService } from "../services/usuarios";
+import { Usuario } from "../interfaces/usuario";
 
 @Component({
   selector: 'app-lista',
@@ -14,28 +14,30 @@ import { Usuario } from "../usuario";
   styleUrls: ['./lista.css'],
 })
 export class Lista implements OnInit {
-  mascotas: Mascota[] = [];
-  mascotasFiltradas: Mascota[] = [];
-  mascotaSeleccionada: Mascota | null = null;
+  mascotas: Mascota[] = []; // Lista completa de mascotas
+  mascotasFiltradas: Mascota[] = []; // Lista filtrada para mostrar
+  mascotaSeleccionada: Mascota | null = null; // Mascota seleccionada para editar
 
-  nombre: string | undefined;
+// Datos del formulario para nueva mascota
+  nombre: string | undefined; 
   clase: string | undefined;
   peso: number | undefined;
   edad: number | undefined;
   usuarios: any;
   usuariosId: number | undefined;
 
-  constructor(
+
+  constructor( // Inyectar el servicio de mascotas y usuarios
     private mascotasService: MascotasService,
     private usuariosService: UsuariosService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Cargar datos iniciales
     this.loadMascotas();
     this.loadUsuarios();
   }
 
-  private loadMascotas(): void {
+  private loadMascotas(): void { // Cargar mascotas desde el servicio
     this.mascotasService.getMascotas().subscribe(
       (data) => {
         this.mascotas = data;
@@ -45,7 +47,7 @@ export class Lista implements OnInit {
     );
   }
 
-  private loadUsuarios(): void {
+  private loadUsuarios(): void { // Cargar usuarios desde el servicio
     this.usuariosService.getUsuarios().subscribe(
       (data) => {
         this.usuarios = data;
@@ -55,7 +57,6 @@ export class Lista implements OnInit {
   }
 
   onSubmit(form: any): void {
-    // El formulario ya valida, pero agregamos validación extra
     if (form.invalid) {
       Object.keys(form.controls).forEach(key => {
         form.controls[key].markAsTouched();
@@ -64,7 +65,7 @@ export class Lista implements OnInit {
       return;
     }
 
-    // Validaciones adicionales personalizadas
+    // Validaciones adicionales para el manejo de errores
     if (!this.nombre || !this.clase || !this.peso || !this.edad || !this.usuariosId) {
       alert('Todos los campos son obligatorios');
       return;
@@ -80,7 +81,7 @@ export class Lista implements OnInit {
       return;
     }
 
-    const newMascota: Mascota = {
+    const newMascota: Mascota = { // Crear objeto mascota
       nombre: this.nombre.trim(),
       clase: this.clase.trim(),
       peso: this.peso,
@@ -88,6 +89,7 @@ export class Lista implements OnInit {
       usuarioId: this.usuariosId
     };
 
+    // Llamar al servicio para crear la mascota
     this.mascotasService.createMascota(newMascota).subscribe(
       (addedMascota) => {
         console.log('Mascota añadida', addedMascota);
@@ -111,10 +113,12 @@ export class Lista implements OnInit {
     );
   }
 
+  // Editar mascota
   editarMascota(mascota: Mascota): void {
     this.mascotaSeleccionada = { ...mascota };
   }
 
+  //Actualiza la mascota editada
   actualizarMascota(): void {
     if (this.mascotaSeleccionada) {
       if (this.mascotaSeleccionada.id === undefined) {
@@ -133,6 +137,7 @@ export class Lista implements OnInit {
         return;
       }
 
+      // Llamar al servicio para actualizar la mascota.
       this.mascotasService.updateMascota(this.mascotaSeleccionada.id!, this.mascotaSeleccionada).subscribe(
         (updatedMascota) => {
           const index = this.mascotas.findIndex(m => m.id === updatedMascota.id);
@@ -153,9 +158,10 @@ export class Lista implements OnInit {
     }
   }
 
+  //Elimina la mascota
   deleteMascota(id: number): void {
     if (confirm('¿Estás seguro de eliminar esta mascota?')) {
-      this.mascotasService.deleteMascota(id).subscribe(
+      this.mascotasService.deleteMascota(id).subscribe( //Llama al servicio para eliminar
         () => {
           this.mascotas = this.mascotas.filter(mascota => mascota.id !== id);
           this.mascotasFiltradas = this.mascotasFiltradas.filter(mascota => mascota.id !== id);

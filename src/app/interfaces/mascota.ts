@@ -6,6 +6,6 @@ export interface Mascota {
     clase: string;
     peso: number;
     edad: number;
-    usuarioId?: number;   // lo envías al backend al crear/editar
-    usuario?: Usuario;    // lo recibís del backend al listar
+    usuarioId?: number;   // se envia al backend al crear/editar
+    usuario?: Usuario;    // se recibe del backend al listar
 }

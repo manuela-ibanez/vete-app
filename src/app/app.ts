@@ -12,7 +12,6 @@ import { FooterComponent } from './footer/footer';
     MenuComponent,
     LogoComponent,
     FooterComponent
-    // Lista ← NO lo incluyas aquí, se carga por el router
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

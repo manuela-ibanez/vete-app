@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Usuario } from '../usuario';
-import { UsuariosService } from '../usuarios';
+import { Usuario } from '../interfaces/usuario';
+import { UsuariosService } from '../services/usuarios';
 import { OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './lista-usuarios.html',
   styleUrl: './lista-usuarios.css',
 })
-export class ListaUsuarios implements OnInit {
+export class ListaUsuarios implements OnInit { // Implementar OnInit para inicialización
   usuarios: Usuario[] = [];
   usuariosFiltrados: Usuario[] = [];
   usuarioSeleccionado: Usuario | null = null;
@@ -29,9 +29,9 @@ export class ListaUsuarios implements OnInit {
   mascotaPeso: number | undefined;
   mascotaEdad: number | undefined;
 
-  constructor(private usuariosService: UsuariosService) {}
+  constructor(private usuariosService: UsuariosService) {} // Inyectar el servicio de usuarios
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Cargar datos iniciales
     this.loadUsuarios();
   }
 
@@ -46,7 +46,6 @@ export class ListaUsuarios implements OnInit {
   }
 
   onSubmit(form: any): void {
-    // El formulario ya valida, pero agregamos validación extra
     if (form.invalid) {
       Object.keys(form.controls).forEach(key => {
         form.controls[key].markAsTouched();
@@ -55,7 +54,7 @@ export class ListaUsuarios implements OnInit {
       return;
     }
 
-    // Validaciones adicionales personalizadas
+    // Manejo de errores
     if (this.mascotaPeso && this.mascotaPeso <= 0) {
       alert('El peso debe ser mayor a 0');
       return;
@@ -81,6 +80,7 @@ export class ListaUsuarios implements OnInit {
       ]
     };
 
+    // Llamar al servicio para crear usuario con mascota
     this.usuariosService.createUsuario(nuevoUsuarioConMascota).subscribe(
       (addedUsuario: any) => {
         console.log('Usuario con mascota añadido', addedUsuario);
@@ -96,20 +96,21 @@ export class ListaUsuarios implements OnInit {
         this.mascotaEdad = undefined;
         form.resetForm();
         
-        // Recargar lista
         this.loadUsuarios();
       },
-      (error: any) => {
+      (error: any) => { //manejo de errores
         console.error('Error al agregar el usuario:', error);
         alert('❌ Error al crear el usuario. Por favor, intenta nuevamente.');
       }
     );
   }
 
+  //editar usuario
   editarUsuario(usuario: Usuario): void {
     this.usuarioSeleccionado = { ...usuario };
   }
 
+  //actualizar usuario
   actualizarUsuario(): void {
     if (this.usuarioSeleccionado && this.usuarioSeleccionado.id) {
       // Crear objeto solo con los datos que se pueden actualizar
@@ -119,6 +120,7 @@ export class ListaUsuarios implements OnInit {
         email: this.usuarioSeleccionado.email.trim().toLowerCase()
       };
 
+      // Llamar al servicio para actualizar el usuario
       this.usuariosService.updateUsuario(this.usuarioSeleccionado.id, usuarioActualizado).subscribe(
         (updatedUsuario: Usuario) => {
           const index = this.usuarios.findIndex(u => u.id === updatedUsuario.id);
@@ -127,11 +129,11 @@ export class ListaUsuarios implements OnInit {
             this.usuariosFiltrados[index] = updatedUsuario;
           }
           console.log('Usuario actualizado', updatedUsuario);
-          alert('✅ Usuario actualizado exitosamente');
+          alert('✅ Usuario actualizado exitosamente'); 
           this.usuarioSeleccionado = null;
           this.loadUsuarios();
         },
-        (error: any) => {
+        (error: any) => { //manejo de errores
           console.error('Error al actualizar el usuario:', error);
           alert('❌ Error al actualizar el usuario');
         }
@@ -139,6 +141,7 @@ export class ListaUsuarios implements OnInit {
     }
   }
 
+  //Eliminar usuario
   deleteUsuario(id: number): void {
     if (confirm('¿Estás seguro de eliminar este usuario y todas sus mascotas?')) {
       this.usuariosService.deleteUsuario(id).subscribe(
@@ -148,7 +151,7 @@ export class ListaUsuarios implements OnInit {
           alert('✅ Usuario eliminado exitosamente');
           console.log(`Usuario con ID ${id} eliminado`);
         },
-        (error: any) => {
+        (error: any) => { //Manejo de errores
           console.error('Error al eliminar el usuario:', error);
           alert('❌ Error al eliminar el usuario');
         }

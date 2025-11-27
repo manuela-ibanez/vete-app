@@ -1,11 +1,11 @@
-/* Colores base en tonos rosa */
+/* Gama de colores rosa */
 :root {
   --pink-light: #fce4ec;
   --pink-medium: #f48fb1;
   --pink-dark: #c2185b;
   --pink-gradient-start: #f48fb1;
   --pink-gradient-end: #c2185b;
-  --pink-extra-light: #fff0f5; /* Nuevo color más claro */
+  --pink-extra-light: #fff0f5;
 }
 
 .hover-card {
@@ -64,23 +64,19 @@
   color: white;
 }
 
-/* Fondo rosa EXTRA claro para la sección de información */
 .bg-light-pink {
   background-color: var(--pink-extra-light);
   border: 2px solid var(--pink-light);
 }
 
-/* Texto rosa oscuro */
 .text-pink-dark {
   color: var(--pink-dark);
 }
 
-/* Gradiente para el Call to Action */
 .bg-gradient-pink {
   background: linear-gradient(135deg, var(--pink-gradient-start) 0%, var(--pink-gradient-end) 100%);
 }
 
-/* Override del color primario de Bootstrap */
 .text-primary {
   color: black !important;
 }

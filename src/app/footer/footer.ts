@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
-  standalone: true,  // ← AGREGAR ESTO
+  standalone: true,
   imports: [],
   templateUrl: './footer.html',
   styleUrl: './footer.css',
 })
 export class FooterComponent {
-  year = new Date().getFullYear();
-}
+  year = new Date().getFullYear(); // Obtener el año actual.
+} 

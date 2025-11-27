@@ -1,4 +1,4 @@
-/* Color principal rosa */
+/* Estilo del título principal */
 h2 {
     color: #c2185b;
     text-align: center;
@@ -6,14 +6,14 @@ h2 {
     font-family: Arial, sans-serif;
 }
 
-/* Encabezado de tabla con color rosa */
+/* Encabezado de tabla  */
 .table thead th {
     background-color: #c2185b;
     color: white;
     border-color: #c2185b;
 }
 
-/* Filas de la tabla con hover */
+/* Filas de la tabla */
 .table-striped tbody tr:hover {
     background-color: #fce4ec;
 }
@@ -39,7 +39,7 @@ h2 {
     border-color: #a01650;
 }
 
-/* Botón warning (editar) - CAMBIADO A ROSA CLARO */
+/* Botón de editar */
 .btn-warning {
     background-color: #f48fb1;
     border-color: #f48fb1;
@@ -52,7 +52,7 @@ h2 {
     color: white;
 }
 
-/* Botón danger (eliminar) */
+/* Botón de eliminar */
 .btn-danger:hover {
     background-color: #c62828;
 }
@@ -62,7 +62,7 @@ h2 {
     max-width: 1200px;
 }
 
-/* Card de edición - CAMBIADO A ROSA CLARO */
+/* Card de edición */
 .card.border-warning {
     border-width: 2px;
     border-color: #f48fb1 !important;
@@ -97,26 +97,23 @@ h5 {
     font-weight: 600;
 }
 
-/* ... tu CSS existente ... */
-
-/* Estilos para validación */
 .invalid-feedback {
-  display: block;
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+    display: block;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
 }
 
 .form-control.is-invalid {
-  border-color: #dc3545;
+    border-color: #dc3545;
 }
 
 .form-control.is-invalid:focus {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
 .btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+    opacity: 0.6;
+    cursor: not-allowed;
 }

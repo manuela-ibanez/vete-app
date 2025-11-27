@@ -1,10 +1,10 @@
 <div class="container py-4">
   <h2>Listado de Usuarios</h2>
 
-  <!-- TABLA DE USUARIOS -->
+  <!-- tabla de usuarios -->
   <table class="table table-striped">
     <thead>
-      <tr>
+      <tr> <!-- Encabezados de la tabla -->
         <th>ID</th>
         <th>Nombre</th>
         <th>Apellido</th>
@@ -14,15 +14,15 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let usuario of usuariosFiltrados">
-        <!-- FILA NORMAL -->
-        <tr>
+      <ng-container *ngFor="let usuario of usuariosFiltrados"> <!-- Recorre los usuarios filtrados -->
+        <!-- fila de usuarios -->
+        <tr> <!-- Muestra los datos del usuario -->
           <td>{{ usuario.id }}</td>
           <td>{{ usuario.nombre }}</td>
           <td>{{ usuario.apellido }}</td>
           <td>{{ usuario.email }}</td>
           <td>
-            <span *ngIf="usuario.mascotas && usuario.mascotas.length > 0">
+            <span *ngIf="usuario.mascotas && usuario.mascotas.length > 0"> <!-- Muestra la cantidad de mascotas -->
               {{ usuario.mascotas.length }} mascota(s)
             </span>
             <span *ngIf="!usuario.mascotas || usuario.mascotas.length === 0">
@@ -30,24 +30,24 @@
             </span>
           </td>
           <td>
-            <button class="btn btn-sm btn-warning me-2" (click)="editarUsuario(usuario)">
+            <button class="btn btn-sm btn-warning me-2" (click)="editarUsuario(usuario)"> <!-- Botón para editar usuario -->
               Editar
             </button>
-            <button class="btn btn-sm btn-danger" (click)="deleteUsuario(usuario.id!)">
+            <button class="btn btn-sm btn-danger" (click)="deleteUsuario(usuario.id!)"> <!-- Botón para eliminar usuario -->
               Eliminar
             </button>
           </td>
         </tr>
 
-        <!-- FILA DEL FORMULARIO DE EDICIÓN -->
-        <tr *ngIf="usuarioSeleccionado?.id === usuario.id">
+        <!-- fila de formulario de edicion -->
+        <tr *ngIf="usuarioSeleccionado?.id === usuario.id"> <!-- Muestra el formulario de edición si el usuario está seleccionado -->
           <td colspan="6">
             <div class="card border-warning">
               <div class="card-body">
-                <form (ngSubmit)="actualizarUsuario()" #editarForm="ngForm">
+                <form (ngSubmit)="actualizarUsuario()" #editarForm="ngForm"> <!-- Formulario de edición -->
                   <div class="row">
                     <div class="col-md-4 mb-3">
-                      <label class="form-label">Nombre *</label>
+                      <label class="form-label">Nombre *</label> <!-- Campo de nombre -->
                       <input 
                         type="text"
                         [(ngModel)]="usuarioSeleccionado!.nombre"
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="col-md-4 mb-3">
-                      <label class="form-label">Apellido *</label>
+                      <label class="form-label">Apellido *</label> <!-- Campo de apellido -->
                       <input 
                         type="text"
                         [(ngModel)]="usuarioSeleccionado!.apellido"
@@ -85,7 +85,7 @@
                     </div>
 
                     <div class="col-md-4 mb-3">
-                      <label class="form-label">Email *</label>
+                      <label class="form-label">Email *</label> <!-- Campo de email -->
                       <input 
                         type="email"
                         [(ngModel)]="usuarioSeleccionado!.email"
@@ -102,7 +102,7 @@
                     </div>
                   </div>
 
-                  <button type="submit" class="btn btn-success me-2" [disabled]="editarForm.invalid">
+                  <button type="submit" class="btn btn-success me-2" [disabled]="editarForm.invalid"> <!-- Botón para actualizar usuario -->
                     Actualizar
                   </button>
                   <button 
@@ -120,15 +120,15 @@
     </tbody>
   </table>
 
-  <!-- FORMULARIO PARA CREAR USUARIO CON MASCOTA -->
+  <!-- formulario para crear usuario con mascota -->
   <div class="card mt-4">
     <div class="card-header bg-primary text-white">
-      <h4>Crear Nuevo Usuario con Mascota</h4>
+      <h4>Crear Nuevo Usuario con Mascota</h4> <!-- Título del formulario -->
     </div>
     <div class="card-body">
       <form (ngSubmit)="onSubmit(usuarioForm)" #usuarioForm="ngForm">
         
-        <!-- DATOS DEL USUARIO -->
+        <!-- datos del usuario -->
         <h5 class="mb-3">Datos del Usuario</h5>
         <div class="row">
           <div class="col-md-4 mb-3">
@@ -192,7 +192,7 @@
 
         <hr class="my-4">
 
-        <!-- DATOS DE LA MASCOTA -->
+        <!-- datos de la mascota -->
         <h5 class="mb-3">Datos de la Mascota</h5>
         <div class="row">
           <div class="col-md-6 mb-3">
@@ -250,7 +250,7 @@
               step="0.1"
               [class.is-invalid]="mascotaPesoInput.invalid && mascotaPesoInput.touched" />
             <div class="invalid-feedback" *ngIf="mascotaPesoInput.invalid && mascotaPesoInput.touched">
-              <small *ngIf="mascotaPesoInput.errors?.['required']">El peso es obligatorio</small>
+              <small *ngIf="mascotaPesoInput.errors?.['required']">El peso es obligatorio</small> <!--control de errores-->
               <small *ngIf="mascotaPesoInput.errors?.['min']">El peso mínimo es 0.1 kg</small>
               <small *ngIf="mascotaPesoInput.errors?.['max']">El peso máximo es 500 kg</small>
             </div>
@@ -269,15 +269,15 @@
               min="0"
               max="50"
               [class.is-invalid]="mascotaEdadInput.invalid && mascotaEdadInput.touched" />
-            <div class="invalid-feedback" *ngIf="mascotaEdadInput.invalid && mascotaEdadInput.touched">
-              <small *ngIf="mascotaEdadInput.errors?.['required']">La edad es obligatoria</small>
+            <div class="invalid-feedback" *ngIf="mascotaEdadInput.invalid && mascotaEdadInput.touched"> 
+              <small *ngIf="mascotaEdadInput.errors?.['required']">La edad es obligatoria</small> <!--control de errores-->
               <small *ngIf="mascotaEdadInput.errors?.['min']">La edad mínima es 0 años</small>
               <small *ngIf="mascotaEdadInput.errors?.['max']">La edad máxima es 50 años</small>
             </div>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg" [disabled]="usuarioForm.invalid">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="usuarioForm.invalid"> <!-- Botón para crear usuario con mascota -->
           Crear Usuario con Mascota
         </button>
       </form>
