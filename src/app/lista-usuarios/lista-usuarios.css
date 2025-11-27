@@ -1,0 +1,37 @@
+h2 {
+    color: #c2185b;
+}
+.lista-container {
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.tabla-mascotas {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+}
+
+.tabla-mascotas th {
+    background: #c2185b;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.tabla-mascotas td {
+    padding: 10px;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Columna de acciones alineada horizontalmente */
+.acciones {
+    display: flex;
+    gap: 10px;
+}

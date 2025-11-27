@@ -11,6 +11,48 @@
     </div>
   </div>
 
+  <!-- Sección: ¿Ya sos dueño? -->
+  <div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+      <h2 class="fw-bold mb-2">¿Ya tenés una mascota registrada?</h2>
+      <p class="text-muted">Elegí la opción que mejor se adapte a tu situación</p>
+    </div>
+    
+    <div class="col-md-6 mb-4 mb-md-0">
+      <div class="card h-100 border-0 shadow hover-card card-pink-light">
+        <div class="card-body text-center p-5">
+          <div class="icon-circle-large mb-4">
+            <span class="fs-1">👤</span>
+          </div>
+          <h3 class="card-title fw-bold mb-3">Soy nuevo aquí</h3>
+          <p class="card-text text-muted mb-4">
+            Aún no tengo mascotas registradas. Quiero registrarme junto con mi primera mascota.
+          </p>
+          <a routerLink="/usuarios" class="btn btn-pink btn-lg px-5">
+            Registrarme 📝
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card h-100 border-0 shadow hover-card card-pink-dark">
+        <div class="card-body text-center p-5">
+          <div class="icon-circle-large mb-4">
+            <span class="fs-1">🐶</span>
+          </div>
+          <h3 class="card-title fw-bold mb-3 text-white">Ya soy dueño</h3>
+          <p class="card-text text-white-50 mb-4">
+            Ya tengo mascotas registradas y quiero añadir una nueva mascota a mi cuenta.
+          </p>
+          <a routerLink="/mascotas" class="btn btn-light btn-lg px-5">
+            Añadir Mascota 🐾
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Cards de Servicios -->
   <div class="row g-4 mb-5">
     <div class="col-md-4">
@@ -57,9 +99,9 @@
   </div>
 
   <!-- Sección de Información -->
-  <div class="row bg-light rounded-4 p-5 mb-5">
+  <div class="row bg-light-pink rounded-4 p-5 mb-5">
     <div class="col-md-6 mb-4 mb-md-0">
-      <h3 class="fw-bold mb-3">¿Por qué elegirnos?</h3>
+      <h3 class="fw-bold mb-3 text-pink-dark">¿Por qué elegirnos?</h3>
       <ul class="list-unstyled">
         <li class="mb-2">✅ Veterinarios profesionales y experimentados</li>
         <li class="mb-2">✅ Equipamiento moderno y de última tecnología</li>
@@ -69,7 +111,7 @@
       </ul>
     </div>
     <div class="col-md-6">
-      <h3 class="fw-bold mb-3">Horarios de Atención</h3>
+      <h3 class="fw-bold mb-3 text-pink-dark">Horarios de Atención</h3>
       <p class="mb-2"><strong>Lunes a Viernes:</strong> 9:00 - 20:00</p>
       <p class="mb-2"><strong>Sábados:</strong> 9:00 - 14:00</p>
       <p class="mb-4"><strong>Domingos:</strong> Emergencias (con cita previa)</p>
@@ -84,7 +126,7 @@
   <!-- Call to Action -->
   <div class="row">
     <div class="col-12 text-center">
-      <div class="bg-primary text-white rounded-4 p-5">
+      <div class="bg-gradient-pink text-white rounded-4 p-5">
         <h2 class="fw-bold mb-3">¿Necesitás una consulta?</h2>
         <p class="mb-4 fs-5">Registrá a tu mascota y gestioná sus citas desde nuestro sistema.</p>
         <a routerLink="/mascotas" class="btn btn-light btn-lg px-5">
