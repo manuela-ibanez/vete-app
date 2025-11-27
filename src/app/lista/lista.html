@@ -1,7 +1,8 @@
-<div class="lista-container">
+<div class="container py-4">
   <h2>Listado de Mascotas</h2>
 
-  <table class="tabla-mascotas">
+  <!-- TABLA DE MASCOTAS -->
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>ID</th>
@@ -13,12 +14,8 @@
         <th>Acciones</th>
       </tr>
     </thead>
-
     <tbody>
-
-      <!-- CONTENEDOR PARA MANTENER JUNTAS LAS DOS FILAS -->
       <ng-container *ngFor="let mascota of mascotasFiltradas">
-
         <!-- FILA NORMAL -->
         <tr>
           <td>{{ mascota.id }}</td>
@@ -26,109 +23,158 @@
           <td>{{ mascota.clase }}</td>
           <td>{{ mascota.peso }} kg</td>
           <td>{{ mascota.edad }} años</td>
-
-          <!-- Dueño recibido como usuarioId solamente -->
           <td>
             {{ mascota.usuario?.nombre || 'Sin dueño' }}
             {{ mascota.usuario?.apellido || '' }}
           </td>
-
-          <td class="acciones">
-            <button class="btn-editar" (click)="editarMascota(mascota)">Editar</button>
-            <button (click)="deleteMascota(mascota.id!)" class="btn-eliminar">Eliminar</button>
+          <td>
+            <button class="btn btn-sm btn-warning me-2" (click)="editarMascota(mascota)">
+              Editar
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteMascota(mascota.id!)">
+              Eliminar
+            </button>
           </td>
         </tr>
 
         <!-- FILA DEL FORMULARIO DE EDICIÓN -->
         <tr *ngIf="mascotaSeleccionada?.id === mascota.id">
           <td colspan="7">
-            <div class="border border-warning p-3 rounded formulario-edicion">
-              <form (ngSubmit)="actualizarMascota()" #editarForm="ngForm">
-                <div class="mb-3">
-                  <label>Nombre</label>
-                  <input type="text"
-                          [(ngModel)]="mascotaSeleccionada!.nombre"
-                          name="nombre"
-                          required
-                          class="form-control" />
-                </div>
+            <div class="card border-warning">
+              <div class="card-body">
+                <form (ngSubmit)="actualizarMascota()" #editarForm="ngForm">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Nombre</label>
+                      <input 
+                        type="text"
+                        [(ngModel)]="mascotaSeleccionada!.nombre"
+                        name="nombre"
+                        required
+                        class="form-control" />
+                    </div>
 
-                <div class="mb-3">
-                  <label>Clase</label>
-                  <input type="text"
-                          [(ngModel)]="mascotaSeleccionada!.clase"
-                          name="clase"
-                          required
-                          class="form-control" />
-                </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Clase</label>
+                      <input 
+                        type="text"
+                        [(ngModel)]="mascotaSeleccionada!.clase"
+                        name="clase"
+                        required
+                        class="form-control" />
+                    </div>
 
-                <div class="mb-3">
-                  <label>Peso</label>
-                  <input type="number"
-                          [(ngModel)]="mascotaSeleccionada!.peso"
-                          name="peso"
-                          required
-                          class="form-control" />
-                </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Peso (kg)</label>
+                      <input 
+                        type="number"
+                        [(ngModel)]="mascotaSeleccionada!.peso"
+                        name="peso"
+                        required
+                        class="form-control" />
+                    </div>
 
-                <div class="mb-3">
-                  <label>Edad</label>
-                  <input type="number"
-                          [(ngModel)]="mascotaSeleccionada!.edad"
-                          name="edad"
-                          required
-                          class="form-control" />
-                </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Edad (años)</label>
+                      <input 
+                        type="number"
+                        [(ngModel)]="mascotaSeleccionada!.edad"
+                        name="edad"
+                        required
+                        class="form-control" />
+                    </div>
+                  </div>
 
-                <button type="submit" class="btn btn-success">Actualizar</button>
-                <button type="button"
-                        (click)="mascotaSeleccionada = null"
-                        class="btn btn-secondary">Cancelar</button>
-              </form>
+                  <button type="submit" class="btn btn-success me-2">Actualizar</button>
+                  <button 
+                    type="button"
+                    (click)="mascotaSeleccionada = null"
+                    class="btn btn-secondary">
+                    Cancelar
+                  </button>
+                </form>
+              </div>
             </div>
           </td>
         </tr>
-
       </ng-container>
-
     </tbody>
   </table>
-</div>
 
-<!-- FORMULARIO DE NUEVA MASCOTA -->
-<div class="border border-danger p3 rounded formulario-mascotas">
-  <form (ngSubmit)="onSubmit(MascotasForm)" #MascotasForm="ngForm" class="p-3">
-
-    <div class="mb-3">
-      <label for="nombre" class="form-label">Nombre</label>
-      <input type="text" class="form-control" id="nombre" [(ngModel)]="nombre" name="nombre" required />
+  <!-- FORMULARIO PARA CREAR NUEVA MASCOTA -->
+  <div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+      <h4>Añadir Nueva Mascota</h4>
     </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit(MascotasForm)" #MascotasForm="ngForm">
+        
+        <h5 class="mb-3">Datos de la Mascota</h5>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="nombre" class="form-label">Nombre *</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="nombre" 
+              [(ngModel)]="nombre" 
+              name="nombre" 
+              required />
+          </div>
 
-    <div class="mb-3">
-      <label for="clase" class="form-label">Clase</label>
-      <input type="text" class="form-control" id="clase" [(ngModel)]="clase" name="clase" required />
+          <div class="col-md-6 mb-3">
+            <label for="clase" class="form-label">Clase (Perro, Gato, etc.) *</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="clase" 
+              [(ngModel)]="clase" 
+              name="clase" 
+              required />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="peso" class="form-label">Peso (kg) *</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="peso" 
+              [(ngModel)]="peso" 
+              name="peso" 
+              required />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="edad" class="form-label">Edad (años) *</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="edad" 
+              [(ngModel)]="edad" 
+              name="edad" 
+              required />
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <label for="usuarioId" class="form-label">Dueño *</label>
+            <select 
+              class="form-control" 
+              [(ngModel)]="usuariosId" 
+              name="usuarioId" 
+              id="usuarioId" 
+              required>
+              <option [ngValue]="undefined">Seleccione un usuario</option>
+              <option *ngFor="let u of usuarios" [ngValue]="u.id">
+                {{ u.nombre }} {{ u.apellido }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg">
+          Añadir Mascota
+        </button>
+      </form>
     </div>
-
-    <div class="mb-3">
-      <label for="peso" class="form-label">Peso</label>
-      <input type="number" class="form-control" id="peso" [(ngModel)]="peso" name="peso" required />
-    </div>
-
-    <div class="mb-3">
-      <label for="edad" class="form-label">Edad</label>
-      <input type="number" class="form-control" id="edad" [(ngModel)]="edad" name="edad" required />
-    </div>
-
-    <div class="mb-3">
-      <label for="usuarioId">Dueño</label>
-      <select class="form-control" [(ngModel)]="usuariosId" name="usuarioId" id="usuarioId" required>
-        <option [ngValue]="undefined">Seleccione un usuario</option>
-        <option *ngFor="let u of usuarios" [ngValue]="u.id">
-          {{ u.nombre }} {{ u.apellido }}
-        </option>
-      </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary"> Añadir mascota </button>
-  </form>
+  </div>
 </div>

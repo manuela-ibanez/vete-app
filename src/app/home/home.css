@@ -5,6 +5,7 @@
   --pink-dark: #c2185b;
   --pink-gradient-start: #f48fb1;
   --pink-gradient-end: #c2185b;
+  --pink-extra-light: #fff0f5; /* Nuevo color más claro */
 }
 
 .hover-card {
@@ -41,7 +42,7 @@
 
 /* Estilos para las cards de selección */
 .card-pink-light {
-  background: linear-gradient(135deg, #fff 0%, var(--pink-light) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--pink-light) 100%);
 }
 
 .card-pink-dark {
@@ -63,9 +64,10 @@
   color: white;
 }
 
-/* Fondo rosa claro */
+/* Fondo rosa EXTRA claro para la sección de información */
 .bg-light-pink {
-  background-color: var(--pink-light);
+  background-color: var(--pink-extra-light);
+  border: 2px solid var(--pink-light);
 }
 
 /* Texto rosa oscuro */
@@ -80,5 +82,5 @@
 
 /* Override del color primario de Bootstrap */
 .text-primary {
-  color: var(--pink-dark) !important;
+  color: black !important;
 }

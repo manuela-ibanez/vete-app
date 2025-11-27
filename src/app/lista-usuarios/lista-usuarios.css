@@ -1,37 +1,110 @@
+/* Color principal rosa */
 h2 {
     color: #c2185b;
-}
-.lista-container {
-    padding: 20px;
-}
-
-h2 {
     text-align: center;
     margin-bottom: 20px;
     font-family: Arial, sans-serif;
 }
 
-.tabla-mascotas {
-    width: 100%;
-    border-collapse: collapse;
-    background: #ffffff;
-    border: 1px solid #dcdcdc;
-}
-
-.tabla-mascotas th {
-    background: #c2185b;
+/* Encabezado de tabla con color rosa */
+.table thead th {
+    background-color: #c2185b;
     color: white;
-    padding: 10px;
-    text-align: left;
+    border-color: #c2185b;
 }
 
-.tabla-mascotas td {
-    padding: 10px;
-    border-top: 1px solid #e5e5e5;
+/* Filas de la tabla con hover */
+.table-striped tbody tr:hover {
+    background-color: #fce4ec;
 }
 
-/* Columna de acciones alineada horizontalmente */
-.acciones {
-    display: flex;
-    gap: 10px;
+/* Card header rosa */
+.card-header.bg-primary {
+    background-color: #c2185b !important;
+    border-color: #c2185b !important;
+}
+
+.card-header h4 {
+    margin: 0;
+}
+
+/* Botón principal rosa */
+.btn-primary {
+    background-color: #c2185b;
+    border-color: #c2185b;
+}
+
+.btn-primary:hover {
+    background-color: #a01650;
+    border-color: #a01650;
+}
+
+/* Botón warning (editar) */
+.btn-warning {
+    background-color: #f48fb1;
+    border-color: #f48fb1;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #ec407a;
+    border-color: #ec407a;
+    color: white;
+}
+
+/* Botón danger (eliminar) */
+.btn-danger:hover {
+    background-color: #c62828;
+}
+
+/* Espaciado consistente */
+.container {
+    max-width: 1200px;
+}
+
+/* Estilo del card del formulario */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Labels del formulario */
+.form-label {
+    font-weight: 500;
+    color: #333;
+    font-family: "Trebuchet MS", sans-serif;
+}
+
+/* Inputs del formulario */
+.form-control:focus {
+    border-color: #f48fb1;
+    box-shadow: 0 0 0 0.2rem rgba(244, 143, 177, 0.25);
+}
+
+/* Separador entre secciones */
+hr {
+    border-color: #f48fb1;
+    opacity: 0.3;
+}
+
+/* Subtítulos del formulario */
+h5 {
+    color: #c2185b;
+    font-weight: 600;
+}
+
+/* Responsive - Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+    .table {
+    font-size: 0.9rem;
+    }
+    
+    .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    }
 }

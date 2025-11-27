@@ -100,22 +100,29 @@ export class ListaUsuarios implements OnInit {
   }
 
   actualizarUsuario(): void {
-    if (this.usuarioSeleccionado && this.usuarioSeleccionado.id) {
-      this.usuariosService.updateUsuario(this.usuarioSeleccionado.id, this.usuarioSeleccionado).subscribe(
-        (updatedUsuario: Usuario) => {
-          const index = this.usuarios.findIndex(u => u.id === updatedUsuario.id);
-          if (index !== -1) {
-            this.usuarios[index] = updatedUsuario;
-            this.usuariosFiltrados[index] = updatedUsuario;
-          }
-          console.log('Usuario actualizado', updatedUsuario);
-          this.usuarioSeleccionado = null;
-          this.loadUsuarios();
-        },
-        (error: any) => console.error('Error al actualizar el usuario:', error)
-      );
-    }
+  if (this.usuarioSeleccionado && this.usuarioSeleccionado.id) {
+    // Crear objeto solo con los datos que se pueden actualizar
+    const usuarioActualizado = {
+      nombre: this.usuarioSeleccionado.nombre,
+      apellido: this.usuarioSeleccionado.apellido,
+      email: this.usuarioSeleccionado.email
+    };
+
+    this.usuariosService.updateUsuario(this.usuarioSeleccionado.id, usuarioActualizado).subscribe(
+      (updatedUsuario: Usuario) => {
+        const index = this.usuarios.findIndex(u => u.id === updatedUsuario.id);
+        if (index !== -1) {
+          this.usuarios[index] = updatedUsuario;
+          this.usuariosFiltrados[index] = updatedUsuario;
+        }
+        console.log('Usuario actualizado', updatedUsuario);
+        this.usuarioSeleccionado = null;
+        this.loadUsuarios();
+      },
+      (error: any) => console.error('Error al actualizar el usuario:', error)
+    );
   }
+}
 
   deleteUsuario(id: number): void {
     if (confirm('¿Estás seguro de eliminar este usuario y todas sus mascotas?')) {

@@ -1,81 +1,98 @@
+/* Color principal rosa */
 h2 {
     color: #c2185b;
-}
-.lista-container {
-    padding: 20px;
-}
-
-h2 {
     text-align: center;
     margin-bottom: 20px;
     font-family: Arial, sans-serif;
 }
 
-.tabla-mascotas {
-    width: 100%;
-    border-collapse: collapse;
-    background: #ffffff;
-    border: 1px solid #dcdcdc;
-}
-
-.tabla-mascotas th {
-    background: #c2185b;
+/* Encabezado de tabla con color rosa */
+.table thead th {
+    background-color: #c2185b;
     color: white;
-    padding: 10px;
-    text-align: left;
+    border-color: #c2185b;
 }
 
-.tabla-mascotas td {
-    padding: 10px;
-    border-top: 1px solid #e5e5e5;
+/* Filas de la tabla con hover */
+.table-striped tbody tr:hover {
+    background-color: #fce4ec;
 }
 
-/* Columna de acciones alineada horizontalmente */
-.acciones {
-    display: flex;
-    gap: 10px;
+/* Card header rosa */
+.card-header.bg-primary {
+    background-color: #c2185b !important;
+    border-color: #c2185b !important;
 }
 
-/* Botones */
-.btn-editar {
-    background-color: #4e449d;
+.card-header h4 {
+    margin: 0;
 }
 
-.btn-eliminar {
-    background-color: #e53935;
+/* Botón principal rosa */
+.btn-primary {
+    background-color: #c2185b;
+    border-color: #c2185b;
 }
 
-.btn-editar,
-.btn-eliminar {
-    border: none;
+.btn-primary:hover {
+    background-color: #a01650;
+    border-color: #a01650;
+}
+
+/* Botón warning (editar) - CAMBIADO A ROSA CLARO */
+.btn-warning {
+    background-color: #f48fb1;
+    border-color: #f48fb1;
     color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
-.btn-editar:hover { /*Hover es para que cambie de color al pasar el mouse*/
-    background-color: #4e449d;
+.btn-warning:hover {
+    background-color: #ec407a;
+    border-color: #ec407a;
+    color: white;
 }
 
-.btn-eliminar:hover {
+/* Botón danger (eliminar) */
+.btn-danger:hover {
     background-color: #c62828;
 }
 
-
-/*FORMULARIO DE AGREGAR MASCOTA*/
-.btn-primary { /*Botón de agregar mascota*/
-    background-color: #c2185b;
-    color: white;
-    border: none;
+/* Espaciado consistente */
+.container {
+    max-width: 1200px;
 }
 
+/* Card de edición - CAMBIADO A ROSA CLARO */
+.card.border-warning {
+    border-width: 2px;
+    border-color: #f48fb1 !important;
+}
+
+/* Estilo del card del formulario */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Labels del formulario */
 .form-label {
+    font-weight: 500;
+    color: #333;
     font-family: "Trebuchet MS", sans-serif;
 }
 
-.formulario-mascotas {
-  width: 900px;        /* achica el formulario */
-  margin: 20px auto;   /* lo centra */
-  padding: 20px;       /* espacio interno */
+/* Inputs del formulario */
+.form-control:focus {
+    border-color: #f48fb1;
+    box-shadow: 0 0 0 0.2rem rgba(244, 143, 177, 0.25);
+}
+
+/* Subtítulos del formulario */
+h5 {
+    color: #c2185b;
+    font-weight: 600;
 }

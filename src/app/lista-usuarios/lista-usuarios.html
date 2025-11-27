@@ -14,28 +14,83 @@
         </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let usuario of usuariosFiltrados">
-        <td>{{ usuario.id }}</td>
-        <td>{{ usuario.nombre }}</td>
-        <td>{{ usuario.apellido }}</td>
-        <td>{{ usuario.email }}</td>
-        <td>
-          <span *ngIf="usuario.mascotas && usuario.mascotas.length > 0">
-            {{ usuario.mascotas.length }} mascota(s)
+      <ng-container *ngFor="let usuario of usuariosFiltrados">
+        <!-- FILA NORMAL -->
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.apellido }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>
+            <span *ngIf="usuario.mascotas && usuario.mascotas.length > 0">
+                {{ usuario.mascotas.length }} mascota(s)
             </span>
-          <span *ngIf="!usuario.mascotas || usuario.mascotas.length === 0">
-            Sin mascotas
+            <span *ngIf="!usuario.mascotas || usuario.mascotas.length === 0">
+                Sin mascotas
             </span>
-        </td>
-        <td>
+            </td>
+            <td>
             <button class="btn btn-sm btn-warning me-2" (click)="editarUsuario(usuario)">
-            Editar
+                Editar
             </button>
             <button class="btn btn-sm btn-danger" (click)="deleteUsuario(usuario.id!)">
-            Eliminar
+                Eliminar
             </button>
-        </td>
+            </td>
         </tr>
+
+        <!-- FILA DEL FORMULARIO DE EDICIÓN -->
+        <tr *ngIf="usuarioSeleccionado?.id === usuario.id">
+            <td colspan="6">
+            <div class="card border-warning">
+                <div class="card-body">
+                <h5 class="mb-3">Editando Usuario: {{ usuarioSeleccionado?.nombre }}</h5>
+                <form (ngSubmit)="actualizarUsuario()" #editarForm="ngForm">
+                    <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input 
+                        type="text"
+                        [(ngModel)]="usuarioSeleccionado!.nombre"
+                        name="nombre"
+                        required
+                        class="form-control" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Apellido</label>
+                        <input 
+                        type="text"
+                        [(ngModel)]="usuarioSeleccionado!.apellido"
+                        name="apellido"
+                        required
+                        class="form-control" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Email</label>
+                        <input 
+                        type="email"
+                        [(ngModel)]="usuarioSeleccionado!.email"
+                        name="email"
+                        required
+                        class="form-control" />
+                    </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success me-2">Actualizar</button>
+                    <button 
+                    type="button"
+                    (click)="usuarioSeleccionado = null"
+                    class="btn btn-secondary">
+                    Cancelar
+                    </button>
+                </form>
+                </div>
+            </div>
+            </td>
+        </tr>
+        </ng-container>
     </tbody>
     </table>
 
