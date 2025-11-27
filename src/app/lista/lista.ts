@@ -14,8 +14,8 @@ import { Usuario } from "../interfaces/usuario";
   styleUrls: ['./lista.css'],
 })
 export class Lista implements OnInit {
-  mascotas: Mascota[] = []; // Lista completa de mascotas
-  mascotasFiltradas: Mascota[] = []; // Lista filtrada para mostrar
+  mascotas: Mascota[] = []; // Lista completa de mascotas que trae el backend
+  mascotasFiltradas: Mascota[] = []; // Lista filtrada para mostrar, lista que se muestra por pantalla.
   mascotaSeleccionada: Mascota | null = null; // Mascota seleccionada para editar
 
 // Datos del formulario para nueva mascota
@@ -56,7 +56,7 @@ export class Lista implements OnInit {
     );
   }
 
-  onSubmit(form: any): void {
+  onSubmit(form: any): void { //Se ejecuta al enviar un formulario.
     if (form.invalid) {
       Object.keys(form.controls).forEach(key => {
         form.controls[key].markAsTouched();
@@ -114,13 +114,13 @@ export class Lista implements OnInit {
   }
 
   // Editar mascota
-  editarMascota(mascota: Mascota): void {
-    this.mascotaSeleccionada = { ...mascota };
+  editarMascota(mascota: Mascota): void { //Se ejecuta al tocar el boton editar.
+    this.mascotaSeleccionada = { ...mascota }; //Recibe la mascota completa para llenar los inputs.
   }
 
   //Actualiza la mascota editada
-  actualizarMascota(): void {
-    if (this.mascotaSeleccionada) {
+  actualizarMascota(): void { //Se ejecuta el tobon actualizar. 
+    if (this.mascotaSeleccionada) {  //No se le pasan parametros porque ya tiene los datos en mascotaSeleccionada
       if (this.mascotaSeleccionada.id === undefined) {
         console.error('Error: La mascota seleccionada no tiene un id definido.');
         return;
@@ -159,7 +159,7 @@ export class Lista implements OnInit {
   }
 
   //Elimina la mascota
-  deleteMascota(id: number): void {
+  deleteMascota(id: number): void { //Se ejecuta al tocal el boton eliminar. Solo recibe el ID de la mascota.
     if (confirm('¿Estás seguro de eliminar esta mascota?')) {
       this.mascotasService.deleteMascota(id).subscribe( //Llama al servicio para eliminar
         () => {

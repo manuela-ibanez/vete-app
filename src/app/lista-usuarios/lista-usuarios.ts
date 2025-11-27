@@ -14,9 +14,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './lista-usuarios.css',
 })
 export class ListaUsuarios implements OnInit { // Implementar OnInit para inicialización
-  usuarios: Usuario[] = [];
-  usuariosFiltrados: Usuario[] = [];
-  usuarioSeleccionado: Usuario | null = null;
+  usuarios: Usuario[] = []; //Lista de usuarios que le pasa el backend
+  usuariosFiltrados: Usuario[] = []; //Lista de usuarios que se muestra por pantalla
+  usuarioSeleccionado: Usuario | null = null; //Mascota seleccionada
 
   // Datos del usuario
   nombre: string = '';
@@ -35,7 +35,7 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
     this.loadUsuarios();
   }
 
-  private loadUsuarios(): void {
+  private loadUsuarios(): void { //Cuando el componente se inicie, llamar a loadUsuarios() para traer los usuarios del backend.
     this.usuariosService.getUsuarios().subscribe(
       (data) => {
         this.usuarios = data;
@@ -45,7 +45,7 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
     );
   }
 
-  onSubmit(form: any): void {
+  onSubmit(form: any): void { //Para formulario
     if (form.invalid) {
       Object.keys(form.controls).forEach(key => {
         form.controls[key].markAsTouched();
@@ -81,7 +81,7 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
     };
 
     // Llamar al servicio para crear usuario con mascota
-    this.usuariosService.createUsuario(nuevoUsuarioConMascota).subscribe(
+    this.usuariosService.createUsuario(nuevoUsuarioConMascota).subscribe( //cuando el usuario aprieta el boton crear
       (addedUsuario: any) => {
         console.log('Usuario con mascota añadido', addedUsuario);
         alert('✅ Usuario y mascota creados exitosamente');
@@ -106,12 +106,12 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
   }
 
   //editar usuario
-  editarUsuario(usuario: Usuario): void {
+  editarUsuario(usuario: Usuario): void { //cuando el usuario aprieta el boton editar
     this.usuarioSeleccionado = { ...usuario };
   }
 
   //actualizar usuario
-  actualizarUsuario(): void {
+  actualizarUsuario(): void { //cuando el usuario aprieta el boton actualizar
     if (this.usuarioSeleccionado && this.usuarioSeleccionado.id) {
       // Crear objeto solo con los datos que se pueden actualizar
       const usuarioActualizado = {
@@ -142,7 +142,7 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
   }
 
   //Eliminar usuario
-  deleteUsuario(id: number): void {
+  deleteUsuario(id: number): void { //cuando el usuario aprieta el boton eliminar
     if (confirm('¿Estás seguro de eliminar este usuario y todas sus mascotas?')) {
       this.usuariosService.deleteUsuario(id).subscribe(
         () => {
