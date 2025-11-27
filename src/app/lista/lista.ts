@@ -57,24 +57,36 @@ mascota: any;
   }
 
   onSubmit(form: any): void {
-    const newMascota: Mascota = {
-      nombre: this.nombre ?? '',
-      clase: this.clase ?? '',
-      peso: this.peso ?? 0,
-      edad: this.edad ?? 0,
-      usuarioId: this.usuariosId
-    };
+  const newMascota: Mascota = {
+    nombre: this.nombre ?? '',
+    clase: this.clase ?? '',
+    peso: this.peso ?? 0,
+    edad: this.edad ?? 0,
+    usuarioId: this.usuariosId
+  };
 
-    this.mascotasService.createMascota(newMascota).subscribe(
-      (addedMascota) => {
-        this.mascotas.push(addedMascota);
-        this.mascotasFiltradas.push(addedMascota);
-        console.log('Mascota añadida', addedMascota);
-        this.loadMascotas();
-      },
-      (error) => console.error('Error al agregar la mascota:', error)
-    );
-  }
+  this.mascotasService.createMascota(newMascota).subscribe(
+    (addedMascota) => {
+      console.log('Mascota añadida', addedMascota);
+      
+      // NO agregues manualmente, solo recargá la lista
+      // this.mascotas.push(addedMascota);  ← BORRAR
+      // this.mascotasFiltradas.push(addedMascota);  ← BORRAR
+      
+      // Limpiar formulario
+      this.nombre = undefined;
+      this.clase = undefined;
+      this.peso = undefined;
+      this.edad = undefined;
+      this.usuariosId = undefined;
+      form.resetForm();
+      
+      // Recargar lista completa desde el backend
+      this.loadMascotas();  // ← Esto trae todo con las relaciones
+    },
+    (error) => console.error('Error al agregar la mascota:', error)
+  );
+}
 
   // Seleccionar mascota para edición.
   editarMascota(mascota: Mascota): void {
