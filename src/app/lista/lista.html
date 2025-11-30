@@ -2,7 +2,7 @@
   <h2>Listado de Mascotas</h2>
 
   <!-- tabla de mascotas -->
-  <table class="table table-striped">
+  <table class="table">
     <thead>
       <tr>
         <th>ID</th> <!-- Encabezados de la tabla -->
@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let mascota of mascotasFiltradas">
+      <ng-container *ngFor="let mascota of mascotasFiltradas"> <!-- Se usa container para poder repetir varias filas (<tr>) por cada mascota -->
         <!-- fila de datos de la mascota -->
         <tr>
           <td>{{ mascota.id }}</td> <!-- Datos de la mascota -->
@@ -28,10 +28,10 @@
             {{ mascota.usuario?.apellido || '' }} <!-- Manejo de posible usuario nulo -->
           </td>
           <td>
-            <button class="btn btn-sm btn-warning me-2" (click)="editarMascota(mascota)"> <!-- Boton de editar -->
+            <button class="btn btn-warning" (click)="editarMascota(mascota)"> <!-- Boton de editar -->
               Editar
             </button>
-            <button class="btn btn-sm btn-danger" (click)="deleteMascota(mascota.id!)"> <!-- Boton de eliminar -->
+            <button class="btn btn-danger" (click)="deleteMascota(mascota.id!)"> <!-- Boton de eliminar -->
               Eliminar
             </button>
           </td>
@@ -40,8 +40,8 @@
         <!-- fila del formulario de edicion -->
         <tr *ngIf="mascotaSeleccionada?.id === mascota.id"> <!-- Mostrar formulario solo para la mascota seleccionada -->
           <td colspan="7"> <!--tipo de celdas de la tabla-->
-            <div class="card border-warning">
-              <div class="card-body">
+            <div class="card border-warning"> <!-- Parte externa del contenedor -->
+              <div class="card-body"> <!-- Parte interna del contenedor-->
                 <form (ngSubmit)="actualizarMascota()" #editarForm="ngForm"> <!-- llamado a la funcion actualizar mascota -->
                   <div class="row">
                     <div class="col-md-6 mb-3">
@@ -50,16 +50,9 @@
                         type="text" 
                         [(ngModel)]="mascotaSeleccionada!.nombre"
                         name="nombre"
-                        #nombreEdit="ngModel"
-                        required
-                        minlength="2"
-                        maxlength="50"
-                        class="form-control"
-                        [class.is-invalid]="nombreEdit.invalid && nombreEdit.touched" /> <!-- Validacion de clase -->
+                        #nombreEdit="ngModel" />
                       <div class="invalid-feedback" *ngIf="nombreEdit.invalid && nombreEdit.touched">
                         <small *ngIf="nombreEdit.errors?.['required']">El nombre es obligatorio</small> <!-- Validaciones -->
-                        <small *ngIf="nombreEdit.errors?.['minlength']">Mínimo 2 caracteres</small> 
-                        <small *ngIf="nombreEdit.errors?.['maxlength']">Máximo 50 caracteres</small>
                       </div>
                     </div>
 
@@ -252,7 +245,7 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg" [disabled]="MascotasForm.invalid"> <!-- Boton de añadir -->
+        <button type="submit" class="btn btn-primary btn-lg" > <!-- Boton de añadir -->
           Añadir Mascota 
         </button>
       </form>

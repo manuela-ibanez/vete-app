@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
+  standalone: true, //No depende de un modulo
   imports: [RouterLink], // Importar RouterLink para la navegación.
   templateUrl: './home.html',
   styleUrl: './home.css',

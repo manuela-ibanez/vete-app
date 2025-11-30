@@ -1,20 +1,8 @@
-html, body {
-    height: 100%;
-    background-color: #fde7f2;
-    margin: 0;
-}
-
-.container-fluid {
+.container-fluid { /*Para el fondo de la pagina */
     background-color: #fde7f2 !important;
 }
 
-
 .menu-full {
-    background-color: #f8b3d6; 
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;            
-    padding: 8px 15px 8px 12px; 
-    gap: 10px;
+    background-color: #f8b3d6; /*fondo del menu*/
+    display: flex; /*para que este a la izquierda*/
 }

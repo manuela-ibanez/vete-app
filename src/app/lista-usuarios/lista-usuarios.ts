@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-lista-usuarios',
-  standalone: true,
+  standalone: true, //No depende de un modulo
   imports: [RouterLink, FormsModule, CommonModule],
   templateUrl: './lista-usuarios.html',
   styleUrl: './lista-usuarios.css',
@@ -55,7 +55,7 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
     }
 
     // Manejo de errores
-    if (this.mascotaPeso && this.mascotaPeso <= 0) {
+    if (this.mascotaPeso && this.mascotaPeso <= 0) { //primero verifica que la variable exista y que sea menor o igual a 0
       alert('El peso debe ser mayor a 0');
       return;
     }

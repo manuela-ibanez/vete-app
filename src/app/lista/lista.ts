@@ -8,7 +8,7 @@ import { Usuario } from "../interfaces/usuario";
 
 @Component({
   selector: 'app-lista',
-  standalone: true,
+  standalone: true, //No depende de un modulo
   imports: [CommonModule, FormsModule],
   templateUrl: './lista.html',
   styleUrls: ['./lista.css'],
