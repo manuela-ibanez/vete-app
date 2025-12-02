@@ -1,33 +1,34 @@
+//El service se encarga de persistir los datos, trae los datos del backend.
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { Usuario } from '../interfaces/usuario';
 @Injectable({
   providedIn: 'root',
 })
 export class UsuariosService {
-  private baseUrl = 'http://localhost:3000/usuarios';
 
+  private baseUrl = 'http://localhost:3000/usuarios';
   constructor(private http: HttpClient) {}
 
   // Traer todos los usuarios.
-  getUsuarios(): Observable<any> {
-    return this.http.get(this.baseUrl);
+  getAll(): Observable<Usuario[]> { //Cuando cambia el observable toma una acción
+    return this.http.get<Usuario[]>(this.baseUrl); //El metodo get devuelve un observable
   }
 
   // Traer un usuario por una ID.
-  getUsuario(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  getUsuarios(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.baseUrl}/${id}`);
   }
 
   // Crear un usuario.
-  createUsuario(data: any): Observable<any> {
-    return this.http.post(this.baseUrl, data);
+  createUsuario(usuario: any): Observable<Usuario> {
+    return this.http.post<Usuario>(this.baseUrl, usuario);
   }
 
   // Actualizar un usuario con su ID.
-  updateUsuario(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, data);
+  updateUsuario(id: number, usuario: any): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.baseUrl}/${id}`, usuario);
   }
 
   // eliminar un usuario.

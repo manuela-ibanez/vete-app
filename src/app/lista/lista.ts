@@ -4,18 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { MascotasService } from '../services/mascotas';
 import { Mascota } from "../interfaces/mascota";
 import { UsuariosService } from "../services/usuarios";
-import { Usuario } from "../interfaces/usuario";
 
 @Component({
   selector: 'app-lista',
-  standalone: true, //No depende de un modulo
+  standalone: true, //Se puede usar directamente en una ruta, sin declararlo en un módulo.
   imports: [CommonModule, FormsModule],
   templateUrl: './lista.html',
   styleUrls: ['./lista.css'],
 })
+
+
 export class Lista implements OnInit {
-  mascotas: Mascota[] = []; // Lista completa de mascotas que trae el backend
-  mascotasFiltradas: Mascota[] = []; // Lista filtrada para mostrar, lista que se muestra por pantalla.
+  mascotas: Mascota[] = []; // Lista completa de mascota, arreglo vacio
   mascotaSeleccionada: Mascota | null = null; // Mascota seleccionada para editar
 
 // Datos del formulario para nueva mascota
@@ -37,22 +37,25 @@ export class Lista implements OnInit {
     this.loadUsuarios();
   }
 
-  private loadMascotas(): void { // Cargar mascotas desde el servicio
-    this.mascotasService.getMascotas().subscribe(
+  private loadMascotas(): void { // Componente que carga las mascotas desde el servicio
+    this.mascotasService.getAll().subscribe(
       (data) => {
-        this.mascotas = data;
-        this.mascotasFiltradas = data;
+        this.mascotas = data; //Mascotas es la lista de mascotas
       },
-      (error) => console.error('Error al cargar las mascotas:', error)
+      (error) => {
+        console.error('Error al cargar las mascotas:', error)
+      }
     );
   }
 
-  private loadUsuarios(): void { // Cargar usuarios desde el servicio
-    this.usuariosService.getUsuarios().subscribe(
+  private loadUsuarios(): void { // Componente que carga los usuarios desde el servicio
+    this.usuariosService.getAll().subscribe(
       (data) => {
         this.usuarios = data;
       },
-      (error) => console.error('Error al cargar los usuarios:', error)
+      (error) => {
+        console.error('Error al cargar los usuarios:', error)
+      }
     );
   }
 
@@ -143,7 +146,6 @@ export class Lista implements OnInit {
           const index = this.mascotas.findIndex(m => m.id === updatedMascota.id);
           if (index !== -1) {
             this.mascotas[index] = updatedMascota;
-            this.mascotasFiltradas[index] = updatedMascota;
           }
           console.log('Mascota actualizada', updatedMascota);
           alert('✅ Mascota actualizada exitosamente');
@@ -164,7 +166,6 @@ export class Lista implements OnInit {
       this.mascotasService.deleteMascota(id).subscribe( //Llama al servicio para eliminar
         () => {
           this.mascotas = this.mascotas.filter(mascota => mascota.id !== id);
-          this.mascotasFiltradas = this.mascotasFiltradas.filter(mascota => mascota.id !== id);
           alert('✅ Mascota eliminada exitosamente');
           console.log(`Mascota con ID ${id} eliminada`);
         },

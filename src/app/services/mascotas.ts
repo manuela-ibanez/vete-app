@@ -1,3 +1,4 @@
+//El service se encarga de persistir los datos, trae los datos del backend.
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,13 +8,12 @@ import { Mascota } from '../interfaces/mascota';
     providedIn: 'root',
 })
 export class MascotasService {
-    private baseUrl = 'http://localhost:3000/mascotas';
-
-    constructor(private http: HttpClient) {}
-
-  // Traer todas las mascotas.
-    getMascotas(): Observable<Mascota[]> {
-    return this.http.get<Mascota[]>(this.baseUrl);
+  private baseUrl = 'http://localhost:3000/mascotas';
+    constructor(private http: HttpClient) { //Se inyecta un cliente http, permite hacer get, post, put, delete con las URL
+    }
+  // Traer todas las mascotas. Mascorta es la interfaz
+    getAll(): Observable<Mascota[]> { //Cuando cambia el observable toma una acción
+    return this.http.get<Mascota[]>(this.baseUrl); //El metodo get devuelve un observable
     }
 
   // Mostrar mascota por su ID.
@@ -22,13 +22,13 @@ export class MascotasService {
     }
 
   // Crear una mascota.
-    createMascota(data: any): Observable<Mascota> {
-    return this.http.post<Mascota>(this.baseUrl, data);
+    createMascota(mascota: any): Observable<Mascota> {
+    return this.http.post<Mascota>(this.baseUrl, mascota);
     }
 
   // Actualizar una mascota.
-    updateMascota(id: number, data: any): Observable<Mascota> {
-    return this.http.put<Mascota>(`${this.baseUrl}/${id}`, data);
+    updateMascota(id: number, mascota: any): Observable<Mascota> {
+    return this.http.put<Mascota>(`${this.baseUrl}/${id}`, mascota);
     }
 
   // Eliminar una mascota.

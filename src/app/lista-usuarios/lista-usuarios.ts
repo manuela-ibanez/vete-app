@@ -8,14 +8,13 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-lista-usuarios',
-  standalone: true, //No depende de un modulo
+  standalone: true, //Se puede usar directamente en una ruta, sin declararlo en un módulo
   imports: [RouterLink, FormsModule, CommonModule],
   templateUrl: './lista-usuarios.html',
   styleUrl: './lista-usuarios.css',
 })
 export class ListaUsuarios implements OnInit { // Implementar OnInit para inicialización
   usuarios: Usuario[] = []; //Lista de usuarios que le pasa el backend
-  usuariosFiltrados: Usuario[] = []; //Lista de usuarios que se muestra por pantalla
   usuarioSeleccionado: Usuario | null = null; //Mascota seleccionada
 
   // Datos del usuario
@@ -31,15 +30,14 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
 
   constructor(private usuariosService: UsuariosService) {} // Inyectar el servicio de usuarios
 
-  ngOnInit(): void { // Cargar datos iniciales
+  ngOnInit(): void { // Cargar datos iniciales desde el backend, a traves de ls services 
     this.loadUsuarios();
   }
 
   private loadUsuarios(): void { //Cuando el componente se inicie, llamar a loadUsuarios() para traer los usuarios del backend.
-    this.usuariosService.getUsuarios().subscribe(
+    this.usuariosService.getAll().subscribe(
       (data) => {
         this.usuarios = data;
-        this.usuariosFiltrados = data;
       },
       (error) => console.error('Error al cargar los usuarios:', error)
     );
@@ -126,7 +124,6 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
           const index = this.usuarios.findIndex(u => u.id === updatedUsuario.id);
           if (index !== -1) {
             this.usuarios[index] = updatedUsuario;
-            this.usuariosFiltrados[index] = updatedUsuario;
           }
           console.log('Usuario actualizado', updatedUsuario);
           alert('✅ Usuario actualizado exitosamente'); 
@@ -146,8 +143,7 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
     if (confirm('¿Estás seguro de eliminar este usuario y todas sus mascotas?')) {
       this.usuariosService.deleteUsuario(id).subscribe(
         () => {
-          this.usuarios = this.usuarios.filter(usuario => usuario.id !== id);
-          this.usuariosFiltrados = this.usuariosFiltrados.filter(usuario => usuario.id !== id);
+          this.usuarios = this.usuarios.filter(usuario => usuario.id !== id);;
           alert('✅ Usuario eliminado exitosamente');
           console.log(`Usuario con ID ${id} eliminado`);
         },
