@@ -28,135 +28,58 @@
             {{ mascota.usuario?.apellido || '' }} <!-- Manejo de posible usuario nulo -->
           </td>
           <td>
-            <button class="btn btn-warning" (click)="editarMascota(mascota)"> <!-- Boton de editar -->
+            <button class="btn btn-editar" (click)="editMascota(mascota.id!)"> <!-- Boton de editar -->
               Editar
             </button>
             <button class="btn btn-danger" (click)="deleteMascota(mascota.id!)"> <!-- Boton de eliminar -->
               Eliminar
             </button>
-          </td>
+            </td>
         </tr>
+            <tr *ngIf="mascota.id == editarMascotaId" class="mt-3 border border-secondary">
+              <td colspan="6">
+              <form (ngSubmit)="updateMascota(updateMascotaForm)" #updateMascotaForm="ngForm" class="p-3">
+                <input type="hidden" [(ngModel)]="mascota.id" name="id" />
+                <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="mascota.nombre" required/>
+                </div>
+                <div class="mb-3">
+                <label for="clase" class="form-label">Clase:</label>
+                <input type="text" class="form-control" id="clase" name="clase" [(ngModel)]="mascota.clase" required/>
+                </div>
+                <div class="mb-3">
+                <label for="peso" class="form-label">Peso:</label>
+                <input type="number" class="form-control" id="peso" name="peso" [(ngModel)]="mascota.peso" required/>
+                </div>
+                <div class="mb-3">
+                <label for="edad" class="form-label">Edad:</label>
+                <input type="number" class="form-control" id="edad" name="edad" [(ngModel)]="mascota.edad" required/>
+                </div>
 
-        <!-- fila del formulario de edicion -->
-        <tr *ngIf="mascotaSeleccionada?.id === mascota.id"> <!-- Mostrar formulario solo para la mascota seleccionada -->
-          <td colspan="7"> <!--tipo de celdas de la tabla-->
-            <div class="card border-warning"> <!-- Parte externa del contenedor -->
-              <div class="card-body"> <!-- Parte interna del contenedor-->
-                <form (ngSubmit)="actualizarMascota()" #editarForm="ngForm"> <!-- llamado a la funcion actualizar mascota -->
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label">Nombre *</label> <!-- Si cambia el valor del imput tambien el del modelo -->
-                      <input
-                        type="text" 
-                        [(ngModel)]="mascotaSeleccionada!.nombre"
-                        name="nombre"
-                        #nombreEdit="ngModel" />
-                      <div class="invalid-feedback" *ngIf="nombreEdit.invalid && nombreEdit.touched">
-                        <small *ngIf="nombreEdit.errors?.['required']">El nombre es obligatorio</small> <!-- Validaciones -->
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 mb-3"> <!-- Si cambia el valor del imput tambien el del modelo -->
-                      <label class="form-label">Clase *</label>
-                      <input 
-                        type="text"
-                        [(ngModel)]="mascotaSeleccionada!.clase"
-                        name="clase"
-                        #claseEdit="ngModel"
-                        required
-                        minlength="2"
-                        maxlength="30"
-                        class="form-control"
-                        [class.is-invalid]="claseEdit.invalid && claseEdit.touched" /> <!-- Validacion de clase -->
-                      <div class="invalid-feedback" *ngIf="claseEdit.invalid && claseEdit.touched">
-                        <small *ngIf="claseEdit.errors?.['required']">La clase es obligatoria</small> <!-- Validaciones -->
-                        <small *ngIf="claseEdit.errors?.['minlength']">Mínimo 2 caracteres</small>
-                        <small *ngIf="claseEdit.errors?.['maxlength']">Máximo 30 caracteres</small>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 mb-3"> <!-- Si cambia el valor del imput tambien el del modelo -->
-                      <label class="form-label">Peso (kg) *</label>
-                      <input 
-                        type="number"
-                        [(ngModel)]="mascotaSeleccionada!.peso"
-                        name="peso"
-                        #pesoEdit="ngModel"
-                        required
-                        min="0.1"
-                        max="500"
-                        step="0.1"
-                        class="form-control"
-                        [class.is-invalid]="pesoEdit.invalid && pesoEdit.touched" /> <!-- Validacion de clase -->
-                      <div class="invalid-feedback" *ngIf="pesoEdit.invalid && pesoEdit.touched">
-                        <small *ngIf="pesoEdit.errors?.['required']">El peso es obligatorio</small> <!-- Validaciones -->
-                        <small *ngIf="pesoEdit.errors?.['min']">El peso mínimo es 0.1 kg</small>
-                        <small *ngIf="pesoEdit.errors?.['max']">El peso máximo es 500 kg</small>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                      <label class="form-label">Edad (años) *</label> <!-- Si cambia el valor del imput tambien el del modelo -->
-                      <input 
-                        type="number"
-                        [(ngModel)]="mascotaSeleccionada!.edad"
-                        name="edad"
-                        #edadEdit="ngModel"
-                        required
-                        min="0"
-                        max="50"
-                        class="form-control"
-                        [class.is-invalid]="edadEdit.invalid && edadEdit.touched" /> <!-- Validacion de clase -->
-                      <div class="invalid-feedback" *ngIf="edadEdit.invalid && edadEdit.touched">
-                        <small *ngIf="edadEdit.errors?.['required']">La edad es obligatoria</small> <!-- Validaciones --> 
-                        <small *ngIf="edadEdit.errors?.['min']">La edad mínima es 0 años</small>
-                        <small *ngIf="edadEdit.errors?.['max']">La edad máxima es 50 años</small>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button type="submit" class="btn btn-success me-2" [disabled]="editarForm.invalid"> <!-- Boton de actualizar -->
-                    Actualizar
-                  </button>
-                  <button 
-                    type="button"
-                    (click)="mascotaSeleccionada = null"
-                    class="btn btn-secondary">
-                    Cancelar
-                  </button> <!-- Boton de cancelar -->
-                </form>
-              </div>
-            </div>
-          </td>
-        </tr>
+                <button type="submit" class="btn btn-success">Actualizar</button>
+              </form>
+            </td>
+          </tr>
       </ng-container>
     </tbody>
   </table>
 
   <!-- FORMULARIO PARA CREAR NUEVA MASCOTA -->
-  <div class="card mt-4">
-    <div class="card-header bg-primary text-white">
+  <div class="card">
+    <div class="card-header">
       <h4>Añadir Nueva Mascota</h4>
     </div>
     <div class="card-body">
-      <form (ngSubmit)="onSubmit(MascotasForm)" #MascotasForm="ngForm">
-        
-        <h5 class="mb-3">Datos de la Mascota</h5> <!-- Subtítulo del formulario -->
-        <div class="row">
-          <div class="col-md-6 mb-3"> <!-- Campo de nombre -->
-            <label for="nombre" class="form-label">Nombre *</label> 
-            <input 
-              type="text" 
-              class="form-control" 
-              id="nombre" 
-              [(ngModel)]="nombre" 
-              name="nombre"
-              #nombreInput="ngModel"
+      <form (ngSubmit)="createMascota(createMascotasForm)" #createMascotasForm="ngForm" class="p-3">
+        <div class="col-md-6 mb-3"> <!-- Campo de nombre -->
+          <label for="nombre" class="form-label">Nombre *</label> 
+          <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nombre" #nombreInput="ngModel"
               required
               minlength="2"
               maxlength="50"
               [class.is-invalid]="nombreInput.invalid && nombreInput.touched" />
-            <div class="invalid-feedback" *ngIf="nombreInput.invalid && nombreInput.touched">
+          <div class="invalid-feedback" *ngIf="nombreInput.invalid && nombreInput.touched">  <!--control de errores -->
               <small *ngIf="nombreInput.errors?.['required']">El nombre es obligatorio</small>
               <small *ngIf="nombreInput.errors?.['minlength']">Mínimo 2 caracteres</small>
               <small *ngIf="nombreInput.errors?.['maxlength']">Máximo 50 caracteres</small>
@@ -164,74 +87,49 @@
           </div>
 
           <div class="col-md-6 mb-3">
-            <label for="clase" class="form-label">Clase (Perro, Gato, etc.) *</label> <!-- Campo de clase -->
-            <input 
-              type="text" 
-              class="form-control" 
-              id="clase" 
-              [(ngModel)]="clase" 
-              name="clase"
-              #claseInput="ngModel"
+            <label for="clase" class="form-label">Clase *</label> <!-- Campo de clase -->
+            <input type="text" class="form-control" id="clase" name="clase" [(ngModel)]="clase" #claseInput="ngModel"
               required
               minlength="2"
               maxlength="30"
               [class.is-invalid]="claseInput.invalid && claseInput.touched" />
-            <div class="invalid-feedback" *ngIf="claseInput.invalid && claseInput.touched">
+            <div class="invalid-feedback" *ngIf="claseInput.invalid && claseInput.touched"> <!--control de errores -->
               <small *ngIf="claseInput.errors?.['required']">La clase es obligatoria</small>
               <small *ngIf="claseInput.errors?.['minlength']">Mínimo 2 caracteres</small>
               <small *ngIf="claseInput.errors?.['maxlength']">Máximo 30 caracteres</small>
             </div>
-          </div>
+          </div> 
 
           <div class="col-md-6 mb-3">
             <label for="peso" class="form-label">Peso (kg) *</label> <!-- Campo de peso -->
-            <input 
-              type="number" 
-              class="form-control" 
-              id="peso" 
-              [(ngModel)]="peso" 
-              name="peso"
-              #pesoInput="ngModel"
+            <input type="number" class="form-control" id="peso" name="peso" [(ngModel)]="peso" #pesoInput="ngModel"
               required
               min="0.1"
               max="500"
               step="0.1"
               [class.is-invalid]="pesoInput.invalid && pesoInput.touched" />
-            <div class="invalid-feedback" *ngIf="pesoInput.invalid && pesoInput.touched">
+            <div class="invalid-feedback" *ngIf="pesoInput.invalid && pesoInput.touched"> <!--control de errores -->
               <small *ngIf="pesoInput.errors?.['required']">El peso es obligatorio</small>
               <small *ngIf="pesoInput.errors?.['min']">El peso mínimo es 0.1 kg</small>
-              <small *ngIf="pesoInput.errors?.['max']">El peso máximo es 500 kg</small>
             </div>
           </div>
 
           <div class="col-md-6 mb-3">
             <label for="edad" class="form-label">Edad (años) *</label> <!-- Campo de edad -->
-            <input 
-              type="number" 
-              class="form-control" 
-              id="edad" 
-              [(ngModel)]="edad" 
-              name="edad"
-              #edadInput="ngModel"
+            <input type="number" class="form-control" id="edad" name="edad" [(ngModel)]="edad" #edadInput="ngModel"
               required
               min="0"
               max="50"
               [class.is-invalid]="edadInput.invalid && edadInput.touched" />
-            <div class="invalid-feedback" *ngIf="edadInput.invalid && edadInput.touched">
+            <div class="invalid-feedback" *ngIf="edadInput.invalid && edadInput.touched"> <!--control de errores -->
               <small *ngIf="edadInput.errors?.['required']">La edad es obligatoria</small>
               <small *ngIf="edadInput.errors?.['min']">La edad mínima es 0 años</small>
-              <small *ngIf="edadInput.errors?.['max']">La edad máxima es 50 años</small>
             </div>
           </div>
 
           <div class="col-md-12 mb-3">
             <label for="usuarioId" class="form-label">Dueño *</label> <!-- Campo de dueño -->
-            <select 
-              class="form-control" 
-              [(ngModel)]="usuariosId" 
-              name="usuarioId" 
-              id="usuarioId"
-              #usuarioInput="ngModel"
+            <select class="form-control" id="usuarioId" name="usuarioId" [(ngModel)]="usuarioId" #usuarioInput="ngModel"
               required
               [class.is-invalid]="usuarioInput.invalid && usuarioInput.touched">
               <option [ngValue]="undefined">Seleccione un usuario</option>
@@ -239,16 +137,11 @@
                 {{ u.nombre }} {{ u.apellido }}
               </option>
             </select>
-            <div class="invalid-feedback" *ngIf="usuarioInput.invalid && usuarioInput.touched"> <!-- Validaciones -->
+            <div class="invalid-feedback" *ngIf="usuarioInput.invalid && usuarioInput.touched"> <!--control de errores -->
               <small *ngIf="usuarioInput.errors?.['required']">Debes seleccionar un dueño</small>
             </div>
           </div>
-        </div>
 
-        <button type="submit" class="btn btn-primary btn-lg" > <!-- Boton de añadir -->
-          Añadir Mascota 
-        </button>
+        <button type="submit" class="btn btn-añadir" [disabled]="createMascotasForm.invalid">Añadir Mascota</button>
       </form>
-    </div>
   </div>
-</div>

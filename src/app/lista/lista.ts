@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, NgIf } from "@angular/common";
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MascotasService } from '../services/mascotas';
@@ -8,23 +8,23 @@ import { UsuariosService } from "../services/usuarios";
 @Component({
   selector: 'app-lista',
   standalone: true, //Se puede usar directamente en una ruta, sin declararlo en un módulo.
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgIf],
   templateUrl: './lista.html',
   styleUrls: ['./lista.css'],
 })
 
 
 export class Lista implements OnInit {
-  mascotas: Mascota[] = []; // Lista completa de mascota, arreglo vacio
-  mascotaSeleccionada: Mascota | null = null; // Mascota seleccionada para editar
+  protected mascotas: Mascota[] = []; // Lista completa de mascota, arreglo vacio
 
 // Datos del formulario para nueva mascota
-  nombre: string | undefined; 
-  clase: string | undefined;
-  peso: number | undefined;
-  edad: number | undefined;
-  usuarios: any;
-  usuariosId: number | undefined;
+  protected nombre: string | undefined;  //Cuando se cambian en el html se actualizan en el ts
+  protected clase: string | undefined;
+  protected peso: number | undefined;
+  protected edad: number | undefined;
+  protected usuarios: any;
+  protected usuarioId: number | undefined;
+  protected editarMascotaId: any | undefined;
 
 
   constructor( // Inyectar el servicio de mascotas y usuarios
@@ -59,110 +59,68 @@ export class Lista implements OnInit {
     );
   }
 
-  onSubmit(form: any): void { //Se ejecuta al enviar un formulario.
-    if (form.invalid) {
-      Object.keys(form.controls).forEach(key => {
-        form.controls[key].markAsTouched();
-      });
-      alert('Por favor, completa todos los campos correctamente');
-      return;
+  createMascota(form: any): void { //Se ejecuta al enviar un formulario.
+    const newMascota: any = {
+      nombre: form.value.nombre,
+      clase: form.value.clase,
+      peso: form.value.peso,
+      edad: form.value.edad,
+      usuarioId: form.value.usuarioId,
     }
-
-    // Validaciones adicionales para el manejo de errores
-    if (!this.nombre || !this.clase || !this.peso || !this.edad || !this.usuariosId) {
-      alert('Todos los campos son obligatorios');
-      return;
-    }
-
-    if (this.peso <= 0) {
-      alert('El peso debe ser mayor a 0');
-      return;
-    }
-
-    if (this.edad < 0) {
-      alert('La edad no puede ser negativa');
-      return;
-    }
-
-    const newMascota: Mascota = { // Crear objeto mascota
-      nombre: this.nombre.trim(),
-      clase: this.clase.trim(),
-      peso: this.peso,
-      edad: this.edad,
-      usuarioId: this.usuariosId
-    };
 
     // Llamar al servicio para crear la mascota
     this.mascotasService.createMascota(newMascota).subscribe(
       (addedMascota) => {
+        this.mascotas.push(addedMascota);
         console.log('Mascota añadida', addedMascota);
         alert('✅ Mascota creada exitosamente');
         
         // Limpiar formulario
-        this.nombre = undefined;
-        this.clase = undefined;
-        this.peso = undefined;
-        this.edad = undefined;
-        this.usuariosId = undefined;
-        form.resetForm();
+        form.reset();
         
         // Recargar lista completa desde el backend
         this.loadMascotas();
       },
       (error) => {
         console.error('Error al agregar la mascota:', error);
-        alert('❌ Error al crear la mascota. Por favor, intenta nuevamente.');
+        alert('❌ Error al crear la mascota');
       }
     );
   }
 
-  // Editar mascota
-  editarMascota(mascota: Mascota): void { //Se ejecuta al tocar el boton editar.
-    this.mascotaSeleccionada = { ...mascota }; //Recibe la mascota completa para llenar los inputs.
-  }
-
-  //Actualiza la mascota editada
-  actualizarMascota(): void { //Se ejecuta el tobon actualizar. 
-    if (this.mascotaSeleccionada) {  //No se le pasan parametros porque ya tiene los datos en mascotaSeleccionada
-      if (this.mascotaSeleccionada.id === undefined) {
-        console.error('Error: La mascota seleccionada no tiene un id definido.');
-        return;
-      }
-
-      // Validaciones adicionales
-      if (this.mascotaSeleccionada.peso && this.mascotaSeleccionada.peso <= 0) {
-        alert('El peso debe ser mayor a 0');
-        return;
-      }
-
-      if (this.mascotaSeleccionada.edad && this.mascotaSeleccionada.edad < 0) {
-        alert('La edad no puede ser negativa');
-        return;
-      }
-
-      // Llamar al servicio para actualizar la mascota.
-      this.mascotasService.updateMascota(this.mascotaSeleccionada.id!, this.mascotaSeleccionada).subscribe(
-        (updatedMascota) => {
-          const index = this.mascotas.findIndex(m => m.id === updatedMascota.id);
-          if (index !== -1) {
-            this.mascotas[index] = updatedMascota;
-          }
-          console.log('Mascota actualizada', updatedMascota);
-          alert('✅ Mascota actualizada exitosamente');
-          this.mascotaSeleccionada = null;
-          this.loadMascotas(); 
-        },
-        (error) => {
-          console.error('Error al actualizar la mascota:', error);
-          alert('❌ Error al actualizar la mascota');
-        }
-      );
+  editMascota (id:number): void{
+    if (this.editarMascotaId === id){
+      this.editarMascotaId = null;
+      return;
     }
+    this.editarMascotaId = id;
+    console.log('Edit mascota with id:', id);
   }
+
+  updateMascota (form: any): void {
+    this.mascotasService.updateMascota(form.value.id, {
+      nombre: form.value.nombre,
+      clase:form.value.clase,
+      peso:form.value.peso,
+      edad:form.value.edad,
+    }).subscribe(
+      (updateMascota) => {
+        const index = this.mascotas.findIndex(mascota => mascota.id === updateMascota.id);
+        if (index !== -1){
+          this.mascotas[index] = updateMascota;
+        }
+        console.log ('Mascota update:', updateMascota);
+        this.editarMascotaId = null;
+      },
+    (error) => {
+      console.log ('Ocurrio un error al actualizar la mascota', error);
+    }
+  );
+}
 
   //Elimina la mascota
   deleteMascota(id: number): void { //Se ejecuta al tocal el boton eliminar. Solo recibe el ID de la mascota.
-    if (confirm('¿Estás seguro de eliminar esta mascota?')) {
+    alert ('¿Estás seguro de eliminar esta mascota?');
       this.mascotasService.deleteMascota(id).subscribe( //Llama al servicio para eliminar
         () => {
           this.mascotas = this.mascotas.filter(mascota => mascota.id !== id);
@@ -176,4 +134,3 @@ export class Lista implements OnInit {
       );
     }
   }
-}

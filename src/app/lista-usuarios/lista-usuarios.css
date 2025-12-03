@@ -2,8 +2,6 @@
 h2 {
     color: #c2185b;
     text-align: center;
-    margin-bottom: 20px;
-    font-family: Arial, sans-serif;
 }
 
 /* Encabezado de tabla */
@@ -13,119 +11,30 @@ h2 {
     border-color: #c2185b;
 }
 
-/* Filas de la tabla */
-.table-striped tbody tr:hover {
-    background-color: #fce4ec;
-}
-
 /* Card header */
-.card-header.bg-primary {
-    background-color: #c2185b !important;
-    border-color: #c2185b !important;
-}
-
-.card-header h4 {
-    margin: 0;
-}
-
-/* Botón principal */
-.btn-primary {
+.card-header{
     background-color: #c2185b;
     border-color: #c2185b;
+    color: white
 }
 
-.btn-primary:hover {
-    background-color: #a01650;
-    border-color: #a01650;
+/* Botón crear usuario con mascota*/
+.btn-crear {
+    background-color: #c2185b;
+    border-color: #c2185b;
+    color: white
 }
 
 /* Botón editar */
-.btn-warning {
+.btn-editar {
     background-color: #f48fb1;
     border-color: #f48fb1;
     color: white;
 }
 
-.btn-warning:hover {
-    background-color: #ec407a;
-    border-color: #ec407a;
-    color: white;
-}
-
-/* Botón eliminar    */
-.btn-danger:hover {
-    background-color: #c62828;
-}
-
-/* Espaciado consistente */
-.container {
-    max-width: 1200px;
-}
-
-/* Estilo del card del formulario */
-.card {
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.card-body {
-    padding: 2rem;
-}
-
-/* Labels del formulario */
-.form-label {
-    font-weight: 500;
-    color: #333;
-    font-family: "Trebuchet MS", sans-serif;
-}
-
-/* Inputs del formulario */
-.form-control:focus {
-    border-color: #f48fb1;
-    box-shadow: 0 0 0 0.2rem rgba(244, 143, 177, 0.25);
-}
-
-/* Separador entre secciones */
-hr {
-    border-color: #f48fb1;
-    opacity: 0.3;
-}
-
 /* Subtítulos del formulario */
 h5 {
     color: #c2185b;
-    font-weight: 600;
 }
 
-.invalid-feedback {
-    display: block;
-    color: #dc3545;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-}
 
-.form-control.is-invalid {
-    border-color: #dc3545;
-}
-
-.form-control.is-invalid:focus {
-    border-color: #dc3545;
-    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-}
-
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* Responsive - Ajuste para pantallas pequeñas */
-@media (max-width: 768px) {
-    .table {
-    font-size: 0.9rem;
-    }
-    
-    .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.8rem;
-    }
-}

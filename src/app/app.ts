@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from './menu/menu';
-import { LogoComponent } from './logo/logo';
 import { FooterComponent } from './footer/footer';
 
 @Component({
@@ -10,7 +9,6 @@ import { FooterComponent } from './footer/footer';
   imports: [
     RouterOutlet,
     MenuComponent,
-    LogoComponent,
     FooterComponent
   ],
   templateUrl: './app.html',

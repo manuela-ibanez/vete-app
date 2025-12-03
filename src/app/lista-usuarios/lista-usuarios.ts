@@ -27,6 +27,7 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
   mascotaClase: string = '';
   mascotaPeso: number | undefined;
   mascotaEdad: number | undefined;
+  editarUsuarioId: any | undefined;
 
   constructor(private usuariosService: UsuariosService) {} // Inyectar el servicio de usuarios
 
@@ -43,115 +44,81 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
     );
   }
 
-  onSubmit(form: any): void { //Para formulario
-    if (form.invalid) {
-      Object.keys(form.controls).forEach(key => {
-        form.controls[key].markAsTouched();
-      });
-      alert('Por favor, completa todos los campos correctamente');
-      return;
-    }
-
-    // Manejo de errores
-    if (this.mascotaPeso && this.mascotaPeso <= 0) { //primero verifica que la variable exista y que sea menor o igual a 0
-      alert('El peso debe ser mayor a 0');
-      return;
-    }
-
-    if (this.mascotaEdad && this.mascotaEdad < 0) {
-      alert('La edad no puede ser negativa');
-      return;
-    }
-
+  createUsuario(form: any): void { //Para formulario
     // Crear el objeto con usuario y mascota
     const nuevoUsuarioConMascota = {
-      nombre: this.nombre.trim(),
-      apellido: this.apellido.trim(),
-      email: this.email.trim().toLowerCase(),
+      nombre: form.value.nombre,
+      apellido: form.value.apellido,
+      email: form.value.email,
       mascotas: [
         {
-          nombre: this.mascotaNombre.trim(),
-          clase: this.mascotaClase.trim(),
-          peso: this.mascotaPeso,
-          edad: this.mascotaEdad
+          nombre: form.value.mascotaNombre,
+          clase: form.value.mascotaClase,
+          peso: form.value.mascotaPeso,
+          edad: form.value.mascotaEdad
         }
       ]
     };
 
     // Llamar al servicio para crear usuario con mascota
     this.usuariosService.createUsuario(nuevoUsuarioConMascota).subscribe( //cuando el usuario aprieta el boton crear
-      (addedUsuario: any) => {
+      (addedUsuario) => {
         console.log('Usuario con mascota añadido', addedUsuario);
         alert('✅ Usuario y mascota creados exitosamente');
         
         // Limpiar formulario
-        this.nombre = '';
-        this.apellido = '';
-        this.email = '';
-        this.mascotaNombre = '';
-        this.mascotaClase = '';
-        this.mascotaPeso = undefined;
-        this.mascotaEdad = undefined;
-        form.resetForm();
-        
+        form.reset();
         this.loadUsuarios();
       },
-      (error: any) => { //manejo de errores
+      (error) => { //manejo de errores
         console.error('Error al agregar el usuario:', error);
         alert('❌ Error al crear el usuario. Por favor, intenta nuevamente.');
       }
     );
   }
 
-  //editar usuario
-  editarUsuario(usuario: Usuario): void { //cuando el usuario aprieta el boton editar
-    this.usuarioSeleccionado = { ...usuario };
-  }
-
-  //actualizar usuario
-  actualizarUsuario(): void { //cuando el usuario aprieta el boton actualizar
-    if (this.usuarioSeleccionado && this.usuarioSeleccionado.id) {
-      // Crear objeto solo con los datos que se pueden actualizar
-      const usuarioActualizado = {
-        nombre: this.usuarioSeleccionado.nombre.trim(),
-        apellido: this.usuarioSeleccionado.apellido.trim(),
-        email: this.usuarioSeleccionado.email.trim().toLowerCase()
-      };
-
-      // Llamar al servicio para actualizar el usuario
-      this.usuariosService.updateUsuario(this.usuarioSeleccionado.id, usuarioActualizado).subscribe(
-        (updatedUsuario: Usuario) => {
-          const index = this.usuarios.findIndex(u => u.id === updatedUsuario.id);
-          if (index !== -1) {
-            this.usuarios[index] = updatedUsuario;
-          }
-          console.log('Usuario actualizado', updatedUsuario);
-          alert('✅ Usuario actualizado exitosamente'); 
-          this.usuarioSeleccionado = null;
-          this.loadUsuarios();
-        },
-        (error: any) => { //manejo de errores
-          console.error('Error al actualizar el usuario:', error);
-          alert('❌ Error al actualizar el usuario');
-        }
-      );
+  editUsuario (id:number): void{
+    if (this.editarUsuarioId === id){
+      this.editarUsuarioId = null;
+      return;
     }
+    this.editarUsuarioId = id;
+    console.log('Edit usuario with id:', id);
   }
 
-  //Eliminar usuario
-  deleteUsuario(id: number): void { //cuando el usuario aprieta el boton eliminar
-    if (confirm('¿Estás seguro de eliminar este usuario y todas sus mascotas?')) {
-      this.usuariosService.deleteUsuario(id).subscribe(
+  updateUsuario (form: any): void {
+    this.usuariosService.updateUsuario(form.value.id, {
+      nombre: form.value.nombre,
+      apellido:form.value.apellido,
+      email:form.value.email,
+    }).subscribe(
+      (updateUsuario) => {
+        const index = this.usuarios.findIndex(usuario => usuario.id === updateUsuario.id);
+        if (index !== -1){
+          this.usuarios[index] = updateUsuario;
+        }
+        console.log ('Usuario update:', updateUsuario);
+        this.editarUsuarioId = null;
+      },
+    (error) => {
+      console.log ('Ocurrio un error al actualizar el usuario', error);
+    }
+  );
+}
+
+ //Eliminar usuario
+  deleteUsuario(id: number): void { //Se ejecuta al tocal el boton eliminar. Solo recibe el ID del usuario.
+    alert ('¿Estás seguro de eliminar este usuario?');
+      this.usuariosService.deleteUsuario(id).subscribe( //Llama al servicio para eliminar
         () => {
-          this.usuarios = this.usuarios.filter(usuario => usuario.id !== id);;
+          this.usuarios = this.usuarios.filter(usuario => usuario.id !== id);
           alert('✅ Usuario eliminado exitosamente');
           console.log(`Usuario con ID ${id} eliminado`);
         },
-        (error: any) => { //Manejo de errores
+        (error) => {
           console.error('Error al eliminar el usuario:', error);
           alert('❌ Error al eliminar el usuario');
         }
       );
     }
   }
-}
