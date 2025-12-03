@@ -8,7 +8,7 @@ import { Mascota } from '../interfaces/mascota';
     providedIn: 'root',
 })
 export class MascotasService {
-  private baseUrl = 'https://vete-api.onrender.com/mascotas';
+  private baseUrl = '${environment.apiUrl}/mascotas';
     constructor(private http: HttpClient) { //Se inyecta un cliente http, permite hacer get, post, put, delete con las URL
     }
   // Traer todas las mascotas. Mascorta es la interfaz

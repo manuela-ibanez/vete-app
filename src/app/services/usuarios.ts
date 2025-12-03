@@ -8,7 +8,7 @@ import { Usuario } from '../interfaces/usuario';
 })
 export class UsuariosService {
 
-  private baseUrl = 'https://vete-api.onrender.com/usuarios';
+  private baseUrl = '${environment.apiUrl}/usuarios';
   constructor(private http: HttpClient) {}
 
   // Traer todos los usuarios.
