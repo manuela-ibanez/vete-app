@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Mascota } from '../interfaces/mascota';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class MascotasService {
-  private baseUrl = '${environment.apiUrl}/mascotas';
+  private baseUrl = `${environment.apiUrl}/mascotas`;
     constructor(private http: HttpClient) { //Se inyecta un cliente http, permite hacer get, post, put, delete con las URL
     }
   // Traer todas las mascotas. Mascorta es la interfaz
