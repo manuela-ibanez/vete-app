@@ -1,0 +1,4 @@
+footer {
+    min-height: 100vh; /* Mejor usar 100vh (viewport height) */
+  margin: 0;
+}
