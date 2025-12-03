@@ -1,7 +1,8 @@
 [build]
-  command = "npm run build:ssr"
   publish = "dist/vete-app/browser"
+  command = "npm run build"
 
-[[plugins]]
-  package = "@netlify/angular-runtime"
-
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
