@@ -52,6 +52,8 @@
                   [class.is-invalid]="nombreInput.invalid && nombreInput.touched" />
                 <div class="invalid-feedback" *ngIf="nombreInput.invalid && nombreInput.touched"> 
                   <small *ngIf="nombreInput.errors?.['required']">El nombre es obligatorio</small>
+                  <small *ngIf="nombreInput.errors?.['minlength']">Mínimo 2 caracteres</small>
+                  <small *ngIf="nombreInput.errors?.['maxlength']">Máximo 50 caracteres</small>
                 </div>
                 </div>
                 <div class="mb-3">
@@ -64,6 +66,8 @@
                 [class.is-invalid]="apellidoInput.invalid && apellidoInput.touched" />
                 <div class="invalid-feedback" *ngIf="apellidoInput.invalid && apellidoInput.touched">
                   <small *ngIf="apellidoInput.errors?.['required']">El apellido es obligatorio</small>
+                  <small *ngIf="apellidoInput.errors?.['minlength']">Mínimo 2 caracteres</small>
+                  <small *ngIf="apellidoInput.errors?.['maxlength']">Máximo 50 caracteres</small>
                 </div>
                 </div>
                 <div class="mb-3">
@@ -75,6 +79,7 @@
                 [class.is-invalid]="emailInput.invalid && emailInput.touched" />
                 <div class="invalid-feedback" *ngIf="emailInput.invalid && emailInput.touched">
                   <small *ngIf="emailInput.errors?.['required']">El email es obligatorio</small>
+                  <small *ngIf="emailInput.errors?.['email']">El email no es válido</small>
                 </div>
 
                 </div>
@@ -186,12 +191,13 @@
             <input type="number" class="form-control" id="mascotaEdad" [(ngModel)]="mascotaEdad" name="mascotaEdad"#mascotaEdadInput="ngModel"
               required
               min="0"
-              max="50"
+              max="100"
+              step="1"
               [class.is-invalid]="mascotaEdadInput.invalid && mascotaEdadInput.touched" />
             <div class="invalid-feedback" *ngIf="mascotaEdadInput.invalid && mascotaEdadInput.touched"> 
               <small *ngIf="mascotaEdadInput.errors?.['required']">La edad es obligatoria</small> <!--control de errores-->
               <small *ngIf="mascotaEdadInput.errors?.['min']">La edad mínima es 0 años</small>
-              <small *ngIf="mascotaEdadInput.errors?.['max']">La edad máxima es 50 años</small>
+              <small *ngIf="mascotaEdadInput.errors?.['max']">La edad máxima es 100 años</small>
             </div>
           </div>
 
