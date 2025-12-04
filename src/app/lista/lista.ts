@@ -110,10 +110,12 @@ export class Lista implements OnInit {
           this.mascotas[index] = updateMascota;
         }
         console.log ('Mascota actualizada:', updateMascota);
+        alert('✅ Mascota actualizada exitosamente');
         this.editarMascotaId = null; //Desactiva el formulario de edición en la tabla
       },
     (error) => {
       console.log ('Ocurrio un error al actualizar la mascota', error);
+      alert('❌ Error al actualizar la mascota');
     }
   );
 }

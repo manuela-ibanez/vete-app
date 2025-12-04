@@ -43,7 +43,7 @@
                 <input type="hidden" [(ngModel)]="mascota.id" name="id" />
                 <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="mascota.nombre" required
+                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="mascota.nombre"
                   #nombreInput="ngModel"
                   required
                   minlength="2"
@@ -51,13 +51,11 @@
                   [class.is-invalid]="nombreInput.invalid && nombreInput.touched" />
                   <div class="invalid-feedback" *ngIf="nombreInput.invalid && nombreInput.touched">  <!--control de errores -->
                     <small *ngIf="nombreInput.errors?.['required']">El nombre es obligatorio</small>
-                    <small *ngIf="nombreInput.errors?.['minlength']">Mínimo 2 caracteres</small>
-                    <small *ngIf="nombreInput.errors?.['maxlength']">Máximo 50 caracteres</small>
                   </div>
                 </div>
                 <div class="mb-3">
                 <label for="clase" class="form-label">Clase:</label>
-                <input type="text" class="form-control" id="clase" name="clase" [(ngModel)]="mascota.clase" required
+                <input type="text" class="form-control" id="clase" name="clase" [(ngModel)]="mascota.clase"
                   #claseInput="ngModel"
                   required
                   minlength="2"
@@ -65,13 +63,11 @@
                   [class.is-invalid]="claseInput.invalid && claseInput.touched" /><!--da error si el campo es invalido y fue tocado por el usuario-->
                   <div class="invalid-feedback" *ngIf="claseInput.invalid && claseInput.touched"> <!--control de errores -->
                     <small *ngIf="claseInput.errors?.['required']">La clase es obligatoria</small>
-                    <small *ngIf="claseInput.errors?.['minlength']">Mínimo 2 caracteres</small>
-                    <small *ngIf="claseInput.errors?.['maxlength']">Máximo 30 caracteres</small>
                   </div>
                 </div>
                 <div class="mb-3">
                 <label for="peso" class="form-label">Peso:</label>
-                <input type="number" class="form-control" id="peso" name="peso" [(ngModel)]="mascota.peso" required
+                <input type="number" class="form-control" id="peso" name="peso" [(ngModel)]="mascota.peso"
                   #pesoInput="ngModel"
                   required
                   min="0.1"
@@ -80,12 +76,11 @@
                   [class.is-invalid]="pesoInput.invalid && pesoInput.touched" /> <!--da error si el campo es invalido y fue tocado por el usuario-->
                 <div class="invalid-feedback" *ngIf="pesoInput.invalid && pesoInput.touched"> <!--control de errores -->
                   <small *ngIf="pesoInput.errors?.['required']">El peso es obligatorio</small>
-                  <small *ngIf="pesoInput.errors?.['min']">El peso mínimo es 0.1 kg</small>
                 </div>
                 </div>
                 <div class="mb-3">
                 <label for="edad" class="form-label">Edad:</label>
-                <input type="number" class="form-control" id="edad" name="edad" [(ngModel)]="mascota.edad" required
+                <input type="number" class="form-control" id="edad" name="edad" [(ngModel)]="mascota.edad"
                   #edadInput="ngModel"
                   required
                   min="0"
@@ -93,7 +88,6 @@
                   [class.is-invalid]="edadInput.invalid && edadInput.touched" /><!--da error si el campo es invalido y fue tocado por el usuario-->
                 <div class="invalid-feedback" *ngIf="edadInput.invalid && edadInput.touched"> <!--control de errores -->
                   <small *ngIf="edadInput.errors?.['required']">La edad es obligatoria</small>
-                  <small *ngIf="edadInput.errors?.['min']">La edad mínima es 0 años</small>
                 </div>
                 </div>
 

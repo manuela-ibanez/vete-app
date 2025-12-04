@@ -97,10 +97,12 @@ export class ListaUsuarios implements OnInit { // Implementar OnInit para inicia
           this.usuarios[index] = updateUsuario;
         }
         console.log ('Usuario actualizado:', updateUsuario);
+        alert('✅ Usuario actualizado exitosamente');
         this.editarUsuarioId = null; //Desactiva el formulario de edición en la tabla
       },
     (error) => {
       console.log ('Ocurrio un error al actualizar el usuario', error);
+      alert('❌ Error al actualizar el usuario')
     }
   );
 }
