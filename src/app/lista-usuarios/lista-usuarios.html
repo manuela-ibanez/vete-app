@@ -44,15 +44,44 @@
                 <input type="hidden" [(ngModel)]="usuario.id" name="id" />
                 <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="usuario.nombre" required/>
+                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="usuario.nombre" required
+                  #nombreInput="ngModel"
+                  required
+                  minlength="2"
+                  maxlength="50"
+                  [class.is-invalid]="nombreInput.invalid && nombreInput.touched" />
+                <div class="invalid-feedback" *ngIf="nombreInput.invalid && nombreInput.touched"> 
+                  <small *ngIf="nombreInput.errors?.['required']">El nombre es obligatorio</small>
+                  <small *ngIf="nombreInput.errors?.['minlength']">Mínimo 2 caracteres</small>
+                  <small *ngIf="nombreInput.errors?.['maxlength']">Máximo 50 caracteres</small>
+                </div>
                 </div>
                 <div class="mb-3">
                 <label for="apellido" class="form-label">Apellido:</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" [(ngModel)]="usuario.apellido" required/>
+                <input type="text" class="form-control" id="apellido" name="apellido" [(ngModel)]="usuario.apellido" required
+                  #apellidoInput="ngModel"
+                required
+                minlength="2"
+                maxlength="50"
+                [class.is-invalid]="apellidoInput.invalid && apellidoInput.touched" />
+                <div class="invalid-feedback" *ngIf="apellidoInput.invalid && apellidoInput.touched">
+                  <small *ngIf="apellidoInput.errors?.['required']">El apellido es obligatorio</small>
+                  <small *ngIf="apellidoInput.errors?.['minlength']">Mínimo 2 caracteres</small>
+                  <small *ngIf="apellidoInput.errors?.['maxlength']">Máximo 50 caracteres</small>
+                </div>
                 </div>
                 <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="usuario.email" required/>
+                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="usuario.email" required
+                  #emailInput="ngModel"
+                required
+                email
+                [class.is-invalid]="emailInput.invalid && emailInput.touched" />
+                <div class="invalid-feedback" *ngIf="emailInput.invalid && emailInput.touched">
+                  <small *ngIf="emailInput.errors?.['required']">El email es obligatorio</small>
+                  <small *ngIf="emailInput.errors?.['email']">El email no es válido</small>
+                </div>
+
                 </div>
                 <button type="submit" class="btn btn-success">Actualizar</button>
               </form>
@@ -172,7 +201,7 @@
           </div>
 
         <button type="submit" class="btn btn-crear" [disabled]="createUsuarioForm.invalid">Crear Usuario con Mascota</button> <!-- Botón para crear usuario con mascota -->
-      </form>
+      </form> <!--disabled se activa si el formulario es invalido, y el formulario es invalido si cualquiera de los inputs lo es-->
     </div>
   </div>
 </div>

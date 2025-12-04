@@ -15,16 +15,16 @@ import { UsuariosService } from "../services/usuarios";
 
 
 export class Lista implements OnInit {
-  protected mascotas: Mascota[] = []; // Lista completa de mascota, arreglo vacio
+  protected mascotas: Mascota[] = []; //Array de objetos del tipo mascota (Interface)
 
 // Datos del formulario para nueva mascota
   protected nombre: string | undefined;  //Cuando se cambian en el html se actualizan en el ts
-  protected clase: string | undefined;
+  protected clase: string | undefined; //Para el formulario de crear mascotas a traves de ngModel
   protected peso: number | undefined;
   protected edad: number | undefined;
-  protected usuarios: any;
-  protected usuarioId: number | undefined;
-  protected editarMascotaId: any | undefined;
+  protected usuarios: any; //Almacena la lista de usuarios que vienen del backend
+  protected usuarioId: number | undefined; //Almacena el id del usuario seleccionado
+  protected editarMascotaId: any | undefined; //Para saber que mascota esta en edición
 
 
   constructor( // Inyectar el servicio de mascotas y usuarios
@@ -32,15 +32,15 @@ export class Lista implements OnInit {
     private usuariosService: UsuariosService
   ) {}
 
-  ngOnInit(): void { // Cargar datos iniciales
+  ngOnInit(): void { // Cargar datos iniciales cuando se inicializa el componente.
     this.loadMascotas();
     this.loadUsuarios();
   }
 
-  private loadMascotas(): void { // Componente que carga las mascotas desde el servicio
+  private loadMascotas(): void { // Componente que carga las mascotas desde el servicio, el componente se suscribe al servicio para recibir los datos del backend
     this.mascotasService.getAll().subscribe(
-      (data) => {
-        this.mascotas = data; //Mascotas es la lista de mascotas
+      (data) => { //Data es los datos que se reciben del backend
+        this.mascotas = data; //Guarda los datos recibidos del service en el arreglo mascotas
       },
       (error) => {
         console.error('Error al cargar las mascotas:', error)
@@ -60,8 +60,8 @@ export class Lista implements OnInit {
   }
 
   createMascota(form: any): void { //Se ejecuta al enviar un formulario.
-    const newMascota: any = {
-      nombre: form.value.nombre,
+    const newMascota: any = { //Objeto que se envia al backend
+      nombre: form.value.nombre, //Form.value contiene los valores actuales
       clase: form.value.clase,
       peso: form.value.peso,
       edad: form.value.edad,
@@ -69,9 +69,9 @@ export class Lista implements OnInit {
     }
 
     // Llamar al servicio para crear la mascota
-    this.mascotasService.createMascota(newMascota).subscribe(
-      (addedMascota) => {
-        this.mascotas.push(addedMascota);
+    this.mascotasService.createMascota(newMascota).subscribe( //El serivce realiza un POST al backend creando una nueva mascota
+      (addedMascota) => { //Exito
+        this.mascotas.push(addedMascota); //Respuesta del backend
         console.log('Mascota añadida', addedMascota);
         alert('✅ Mascota creada exitosamente');
         
@@ -81,36 +81,36 @@ export class Lista implements OnInit {
         // Recargar lista completa desde el backend
         this.loadMascotas();
       },
-      (error) => {
+      (error) => { //Error
         console.error('Error al agregar la mascota:', error);
         alert('❌ Error al crear la mascota');
       }
     );
   }
 
-  editMascota (id:number): void{
+  editMascota (id:number): void{ //Abre y cierra el formulario
     if (this.editarMascotaId === id){
-      this.editarMascotaId = null;
+      this.editarMascotaId = null; //Si se vuelve a hacer click se cancela la edicion
       return;
     }
     this.editarMascotaId = id;
-    console.log('Edit mascota with id:', id);
+    console.log('Mascota editada con id:', id);
   }
 
   updateMascota (form: any): void {
-    this.mascotasService.updateMascota(form.value.id, {
-      nombre: form.value.nombre,
+    this.mascotasService.updateMascota(form.value.id, { //Con el form.value obtiene los datos de la mascota con el id
+      nombre: form.value.nombre, //Hace put al backend enviando los nuevos datos para actualizar
       clase:form.value.clase,
       peso:form.value.peso,
       edad:form.value.edad,
     }).subscribe(
-      (updateMascota) => {
-        const index = this.mascotas.findIndex(mascota => mascota.id === updateMascota.id);
+      (updateMascota) => { 
+        const index = this.mascotas.findIndex(mascota => mascota.id === updateMascota.id); //Busca en las mascotas la que tenga ese id y la actualiza
         if (index !== -1){
           this.mascotas[index] = updateMascota;
         }
-        console.log ('Mascota update:', updateMascota);
-        this.editarMascotaId = null;
+        console.log ('Mascota actualizada:', updateMascota);
+        this.editarMascotaId = null; //Desactiva el formulario de edición en la tabla
       },
     (error) => {
       console.log ('Ocurrio un error al actualizar la mascota', error);
@@ -121,9 +121,9 @@ export class Lista implements OnInit {
   //Elimina la mascota
   deleteMascota(id: number): void { //Se ejecuta al tocal el boton eliminar. Solo recibe el ID de la mascota.
     alert ('¿Estás seguro de eliminar esta mascota?');
-      this.mascotasService.deleteMascota(id).subscribe( //Llama al servicio para eliminar
+      this.mascotasService.deleteMascota(id).subscribe( //Llama al servicio para eliminar, delete(id) hace un delete al backend para eliminar
         () => {
-          this.mascotas = this.mascotas.filter(mascota => mascota.id !== id);
+          this.mascotas = this.mascotas.filter(mascota => mascota.id !== id); //Actualiza la lista de mascotas
           alert('✅ Mascota eliminada exitosamente');
           console.log(`Mascota con ID ${id} eliminada`);
         },

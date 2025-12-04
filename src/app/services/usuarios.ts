@@ -18,7 +18,7 @@ export class UsuariosService {
   }
 
   // Traer un usuario por una ID.
-  getUsuarios(id: number): Observable<Usuario> {
+  getUsuarios(id: number): Observable<Usuario> { //Devuelve un observable
     return this.http.get<Usuario>(`${this.baseUrl}/${id}`);
   }
 
